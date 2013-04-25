@@ -3,7 +3,7 @@
 <html lang="de">
   	<head>
   		
-  		<!-- Header -->
+  		<!-- Heade -->
 	  	<?php include('_include/header.php'); ?>
 	  	
   	</head>
