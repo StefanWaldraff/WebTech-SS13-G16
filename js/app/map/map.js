@@ -142,6 +142,24 @@ function initialize() {
         maxZoom: 18
     }));
 
+    map.overlayMapTypes.push(new google.maps.ImageMapType({
+        getTileUrl: function (coord, zoom) {
+        return "http://www.openportguide.org/tiles/actual/air_temperature/5/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
+        },
+        tileSize: new google.maps.Size(256, 256),
+        name: "OpenSeaMapTemperature",
+        maxZoom: 18
+    }));
+
+    map.overlayMapTypes.push(new google.maps.ImageMapType({
+        getTileUrl: function (coord, zoom) {
+        return "http://www.openportguide.org/tiles/actual/wind_vector/7/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
+        },
+        tileSize: new google.maps.Size(256, 256),
+        name: "OpenSeaMapWeather",
+        maxZoom: 18
+    }));
+
     overlay.draw = function () { };
     overlay.setMap(map);
 
@@ -190,7 +208,7 @@ $(function () {
 
             } else if (key == "destination") {
             
-            	startNewNavigation(currentPositionMarker.position, temporaryMarker.position);
+                startNewNavigation(currentPositionMarker.position, temporaryMarker.position);
 
             } else if (key == "delete") {
                 temporaryMarker.setMap(null);
@@ -297,7 +315,7 @@ function setTemporaryMarker(position) {
         var pixel = fromLatLngToPixel(event.latLng);
         
         if (currentMode != MODE.NAVIGATION) {
-	        $('#temporaryMarkerContextMenu').contextMenu({ x: pixel.x, y: pixel.y });
+            $('#temporaryMarkerContextMenu').contextMenu({ x: pixel.x, y: pixel.y });
         }
         
         stopTimeout();
@@ -346,7 +364,7 @@ function setFixedMarker(position) {
         var pixel = fromLatLngToPixel(event.latLng);
         
         if (currentMode != MODE.NAVIGATION) {
-	        $('#fixedMarkerContextMenu').contextMenu({ x: pixel.x, y: pixel.y });
+            $('#fixedMarkerContextMenu').contextMenu({ x: pixel.x, y: pixel.y });
         }
     });
 
