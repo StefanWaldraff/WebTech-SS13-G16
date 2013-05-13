@@ -103,7 +103,6 @@ nav
     border-right: 50px solid #000000;
     box-shadow: 4px 0 5px rgba(0,0,0,0.2);
     z-index: 1;
-    cursor: pointer;
 }
 nav:after
 {
@@ -124,6 +123,12 @@ nav label
     list-style-type: none;
     margin: 0;
     padding: 1em;
+}
+
+nav label:hover
+{
+    color:#000000;
+    cursor: pointer;
 }
 
 article, article:after, nav, nav *

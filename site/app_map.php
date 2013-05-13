@@ -56,9 +56,9 @@
 	        <div id="followCurrentPositionContainer">
 	        	<!-- menu -->
 		    
-	            <div id="followCurrentPosition_button" class="well">
+	            <!--<div id="followCurrentPosition_button" class="well">
 	                <input type="button" class="btn" value="Eigener Position folgen" id="followCurrentPositionbutton" onclick="javascript: toggleFollowCurrentPosition()" />
-	            </div>
+	            </div>-->
 	        </div>
 	        
 	        <!-- Map -->
@@ -69,6 +69,10 @@
 				<nav>
 					<label>Test Text 1</label>
 					<label>Test Text 2</label>
+	                <label>
+	                	<input type="button" class="btn" value="Eigener Position folgen" id="followCurrentPositionbutton" onclick="javascript: toggleFollowCurrentPosition()" />
+	            	</label>
+	            </div>
 				</nav>
 			</div>
 	            <div id="map_canvas"></div>
