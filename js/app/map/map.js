@@ -403,3 +403,17 @@ function toggleFollowCurrentPosition() {
     }
     document.getElementById('followCurrentPositionContainer').style.width = document.body.offsetWidth + "px";
 }
+
+/** Navigation panel events **/
+
+var options = document.getElementById('Optionpanel');
+options.onclick = function (e) {
+        
+    if(e.target.id == 'Optionpanel') {
+        if(options.style.left != '0px')
+            options.style.left = '0px';
+        else
+            options.style.left = '-16em';
+    }
+}
+

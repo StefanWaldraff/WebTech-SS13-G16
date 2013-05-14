@@ -100,7 +100,7 @@ nav
     position: absolute;
     left: -16em;
     background-color: #666666;
-    border-right: 50px solid #000000;
+    border-right: 50px solid #111111;
     box-shadow: 4px 0 5px rgba(0,0,0,0.2);
     z-index: 1;
 }
@@ -114,7 +114,7 @@ nav:after
     top: 20%;
     border-width: 15px 10px;
     border-style: solid;
-    border-color: transparent transparent transparent #000000;
+    border-color: transparent transparent transparent #111111;
 }
 
 nav label
@@ -139,10 +139,10 @@ article, article:after, nav, nav *
     -o-transition: all 600ms ease;
     transition: all 600ms ease;
 }
-
+/*
 nav:hover
 {
-    left: 0;
+    /*left: 0;
 }
 
 nav:hover ~ article
@@ -153,8 +153,4 @@ nav:hover ~ article
     -o-transform: translateX(16em) perspective(600px) rotateY(10deg);
     transform: translateX(16em) perspective(600px) rotateY(10deg);
 }
-
-nav:hover ~ article:after
-{
-    left: 60%;
-}
+*/

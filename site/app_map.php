@@ -66,7 +66,7 @@
 	        <div id="appWrapper">
 
 	        	<div>
-				<nav>
+				<nav id="Optionpanel">
 					<label>Test Text 1</label>
 					<label>Test Text 2</label>
 	                <label>
