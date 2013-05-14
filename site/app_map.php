@@ -67,8 +67,11 @@
 
 	        	<div>
 				<nav id="Optionpanel">
-					<label>Test Text 1</label>
-					<label>Test Text 2</label>
+					<label id="roadmap">Roadmap</label>
+					<label id="satellite">Satellite</label>
+					<label id="OSM">OpenStreetMap</label>
+					<input type="checkbox" id="0" class="layer" /><label for="0">Temperature</label>
+					<input type="checkbox" id="1" class="layer" /><label for="1">Weather</label>
 	                <label>
 	                	<input type="button" class="btn" value="Eigener Position folgen" id="followCurrentPositionbutton" onclick="javascript: toggleFollowCurrentPosition()" />
 	            	</label>

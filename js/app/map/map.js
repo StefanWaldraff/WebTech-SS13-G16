@@ -83,7 +83,7 @@ function initialize() {
             mapTypeIds: mapTypeIds
         },
         disableDefaultUI: true,
-        mapTypeControl: true
+        mapTypeControl: false
     };
 
     //set route menu position
@@ -112,6 +112,7 @@ function initialize() {
 
     currentPositionMarker = new google.maps.Marker(currentMarkerOptions);
 
+    //TODO
     // set map types
     map.mapTypes.set("OSM", new google.maps.ImageMapType({
         getTileUrl: function (coord, zoom) {
@@ -121,6 +122,28 @@ function initialize() {
         name: "OpenStreetMap",
         maxZoom: 18
     }));
+
+    //Optionpanel
+    var options = document.getElementById('Optionpanel');
+    options.addEventListener("click", function (e) {
+            
+        if(e.target.id == 'Optionpanel') {
+            if(options.style.left != '0px')
+                options.style.left = '0px';
+            else
+                options.style.left = '-16em';
+        }
+        else if(e.target.id == 'roadmap') {
+            map.setMapTypeId("roadmap");
+        }
+        else if(e.target.id == 'satellite') {
+            map.setMapTypeId("satellite");
+        }
+        else if(e.target.id == 'OSM') {
+            map.setMapTypeId("OSM");
+        }
+
+    });
 
     google.maps.event.addListener(currentPositionMarker, 'position_changed', function () {
         
@@ -142,26 +165,42 @@ function initialize() {
         maxZoom: 18
     }));
 
-    map.overlayMapTypes.push(new google.maps.ImageMapType({
+    // Overlay map array
+    
+    overlayMaps = [{
         getTileUrl: function (coord, zoom) {
         return "http://www.openportguide.org/tiles/actual/air_temperature/5/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
         },
         tileSize: new google.maps.Size(256, 256),
         name: "OpenSeaMapTemperature",
         maxZoom: 18
-    }));
-
-    map.overlayMapTypes.push(new google.maps.ImageMapType({
+    }, {
         getTileUrl: function (coord, zoom) {
         return "http://www.openportguide.org/tiles/actual/wind_vector/7/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
         },
         tileSize: new google.maps.Size(256, 256),
         name: "OpenSeaMapWeather",
         maxZoom: 18
-    }));
+    }];
 
-    overlay.draw = function () { };
-    overlay.setMap(map);
+    for (i = 0; i < overlayMaps.length; i++){
+        map.overlayMapTypes.push(null);
+    }
+    
+
+    $('.layer').click(function(){
+        var layerID = parseInt($(this).attr('id'));
+        if ($(this).attr('checked')){
+            var overlayMap = new google.maps.ImageMapType(overlayMaps[layerID]);
+            map.overlayMapTypes.setAt(layerID, overlayMap);
+        } else {
+            if (map.overlayMapTypes.getLength() > 0){
+                map.overlayMapTypes.setAt(layerID, null);
+            }
+        }
+        overlay.draw = function () { };
+        overlay.setMap(map);
+    });
 
     // click on map
     google.maps.event.addListener(map, 'click', function (event) {
@@ -406,14 +445,6 @@ function toggleFollowCurrentPosition() {
 
 /** Navigation panel events **/
 
-var options = document.getElementById('Optionpanel');
-options.onclick = function (e) {
-        
-    if(e.target.id == 'Optionpanel') {
-        if(options.style.left != '0px')
-            options.style.left = '0px';
-        else
-            options.style.left = '-16em';
-    }
-}
+
+
 
