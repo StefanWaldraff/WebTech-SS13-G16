@@ -72,6 +72,7 @@
 					<label id="OSM">OpenStreetMap</label>
 					<input type="checkbox" id="0" class="layer" /><label for="0">Temperature</label>
 					<input type="checkbox" id="1" class="layer" /><label for="1">Weather</label>
+					<input type="checkbox" id="2" class="layer" checked="true" /><label for="2">Seamarks</label>
 	                <label>
 	                	<input type="button" class="btn" value="Eigener Position folgen" id="followCurrentPositionbutton" onclick="javascript: toggleFollowCurrentPosition()" />
 	            	</label>

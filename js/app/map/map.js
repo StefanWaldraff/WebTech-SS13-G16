@@ -156,15 +156,6 @@ function initialize() {
         }
     });
 
-    map.overlayMapTypes.push(new google.maps.ImageMapType({
-        getTileUrl: function (coord, zoom) {
-            return "http://tiles.openseamap.org/seamark/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
-        },
-       tileSize: new google.maps.Size(256, 256),
-        name: "OpenSeaMap",
-        maxZoom: 18
-    }));
-
     // Overlay map array
     
     overlayMaps = [{
@@ -181,11 +172,22 @@ function initialize() {
         tileSize: new google.maps.Size(256, 256),
         name: "OpenSeaMapWeather",
         maxZoom: 18
+    }, {
+        getTileUrl: function (coord, zoom) {
+            return "http://tiles.openseamap.org/seamark/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
+        },
+        tileSize: new google.maps.Size(256, 256),
+        name: "OpenSeaMap",
+        maxZoom: 18
     }];
 
     for (i = 0; i < overlayMaps.length; i++){
         map.overlayMapTypes.push(null);
     }
+
+    // activate seapal standard overlayer
+    var overlayMap = new google.maps.ImageMapType(overlayMaps[2]);
+    map.overlayMapTypes.setAt(2, overlayMap);
     
 
     $('.layer').click(function(){
