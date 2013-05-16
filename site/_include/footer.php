@@ -34,10 +34,13 @@
 				<li class="first"><a href="impressum.php">Impressum</a></li>
 				<li><a href="legal.php">Legal notice</a></li>
 			</ul>
+			</br>
+			<?php include('_include/hitcounter.php'); ?>
 		</div>
 	</div>
 	<div class="container" align="center">
 		<br>
 		<p>&copy; 2012 IBN Verlag</p>
 	</div>
+	
 </footer>

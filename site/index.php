@@ -113,7 +113,7 @@
 
 		<!-- Footer -->
 		<?php include('_include/footer.php'); ?>
-
+		
 	    <!-- Java-Script -->
 	    <script src="../js/bootstrap/bootstrap-transition.js"></script>
 	    <script src="../js/bootstrap/bootstrap-button.js"></script>
