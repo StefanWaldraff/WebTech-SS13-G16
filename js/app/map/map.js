@@ -5,6 +5,8 @@
 // Benutzerposition bestimmen
 
 var map = null;
+var markersArray = [];
+var station_list;
 
 var overlay = new google.maps.OverlayView();
 
@@ -73,6 +75,8 @@ function initialize() {
 
     // set different map types
     var mapTypeIds = ["roadmap", "satellite", "OSM"];
+    var mapTypeLabels = ["Map", "Satellite", "OpenStreetMap"];
+    var mapTypeImages = ["../img/custom/roadmap.png", "../img/custom/satellite.png", "../img/custom/openStreetMap.png"];
 
     // set map Options
     var mapOptions = {
@@ -87,7 +91,6 @@ function initialize() {
     };
 
     //set route menu position
-    document.getElementById('followCurrentPositionContainer').style.width = document.body.offsetWidth + "px";
     document.getElementById('routeMenuContainer').style.width = document.body.offsetWidth + "px";
     document.getElementById('routeMenuContainer').style.display = "none";
     document.getElementById('distanceToolContainer').style.width = document.body.offsetWidth + "px";
@@ -112,19 +115,22 @@ function initialize() {
 
     currentPositionMarker = new google.maps.Marker(currentMarkerOptions);
 
-    //TODO
     // set map types
     map.mapTypes.set("OSM", new google.maps.ImageMapType({
         getTileUrl: function (coord, zoom) {
             return "http://tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
         },
         tileSize: new google.maps.Size(256, 256),
-        name: "OpenStreetMap",
+        name: "OSM",
         maxZoom: 18
     }));
 
-    //Optionpanel
+    overlay.draw = function () { };
+    overlay.setMap(map);
+
+    //Optionpanel clicked event
     var options = document.getElementById('Optionpanel');
+    var currentMapType = 0;
     options.addEventListener("click", function (e) {
             
         if(e.target.id == 'Optionpanel') {
@@ -133,16 +139,28 @@ function initialize() {
             else
                 options.style.left = '-16em';
         }
-        else if(e.target.id == 'roadmap') {
-            map.setMapTypeId("roadmap");
+        else if(e.target.id == 'arrowLeft') {
+            if(currentMapType > 0)
+                currentMapType -= 1;
+            else
+                currentMapType = 2;
+            document.getElementById('lblMapType').innerHTML = mapTypeLabels[currentMapType];
+            document.getElementById('map_type').src = mapTypeImages[currentMapType];
         }
-        else if(e.target.id == 'satellite') {
-            map.setMapTypeId("satellite");
+        else if(e.target.id == 'arrowReight') {
+            if(currentMapType < 2)
+                currentMapType += 1;
+            else
+                currentMapType = 0;
+            document.getElementById('lblMapType').innerHTML = mapTypeLabels[currentMapType];
+            document.getElementById('map_type').src = mapTypeImages[currentMapType];
         }
-        else if(e.target.id == 'OSM') {
-            map.setMapTypeId("OSM");
+        else if(e.target.id == 'map_type' || e.target.id == 'lblMapType') {
+            map.setMapTypeId(mapTypeIds[currentMapType]);
         }
-
+        else if(e.target.id == 'weatherClouds') {
+            handleClouds();
+        }
     });
 
     google.maps.event.addListener(currentPositionMarker, 'position_changed', function () {
@@ -156,8 +174,7 @@ function initialize() {
         }
     });
 
-    // Overlay map array
-    
+    // Overlay map array containing all used overlayer    
     overlayMaps = [{
         getTileUrl: function (coord, zoom) {
         return "http://www.openportguide.org/tiles/actual/air_temperature/5/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
@@ -181,6 +198,7 @@ function initialize() {
         maxZoom: 18
     }];
 
+    // initialize empty array with static number of entries
     for (i = 0; i < overlayMaps.length; i++){
         map.overlayMapTypes.push(null);
     }
@@ -188,24 +206,32 @@ function initialize() {
     // activate seapal standard overlayer
     var overlayMap = new google.maps.ImageMapType(overlayMaps[2]);
     map.overlayMapTypes.setAt(2, overlayMap);
-    
 
+    // drawing selected overlayers
     $('.layer').click(function(){
         var layerID = parseInt($(this).attr('id'));
-        if ($(this).attr('checked')){
-            var overlayMap = new google.maps.ImageMapType(overlayMaps[layerID]);
-            map.overlayMapTypes.setAt(layerID, overlayMap);
-        } else {
-            if (map.overlayMapTypes.getLength() > 0){
-                map.overlayMapTypes.setAt(layerID, null);
+        if(!isNaN(layerID)) {
+            if ($(this).attr('checked')){
+                var overlayMap = new google.maps.ImageMapType(overlayMaps[layerID]);
+                map.overlayMapTypes.setAt(layerID, overlayMap);
+            } else {
+                if (map.overlayMapTypes.getLength() > 0){
+                    map.overlayMapTypes.setAt(layerID, null);
+                }
             }
         }
-        overlay.draw = function () { };
-        overlay.setMap(map);
     });
+
+    // create cloud layer if activated
+    google.maps.event.addListener(map, 'idle', handleClouds);    
 
     // click on map
     google.maps.event.addListener(map, 'click', function (event) {
+
+        // Handle optionpanel size
+        var panel = document.getElementById('Optionpanel');
+        if(panel.style.left == '0px')
+            panel.style.left = '-16em'; 
 
         // handler for default mode
         if (currentMode == MODE.DEFAULT) {
@@ -222,6 +248,72 @@ function initialize() {
             noToggleOfFollowCurrentPositionButton = false;
         }
     });
+}
+
+// get weather data and add it to map if overlayer is activated
+function handleClouds(){
+    var chxClouds = document.getElementById('weatherClouds');
+    if(chxClouds.checked) {
+        var bounds = map.getBounds();
+        var ln = bounds.getNorthEast();
+        var ln2 = bounds.getSouthWest();
+        var z = map.getZoom();
+        var myhre = 'http://openweathermap.org/data/getrect?type=city&cnt=200&lat1='+ 
+            ln2.lat() + '&lat2='+ ln.lat() + '&lng1=' + ln2.lng() + '&lng2='+ ln.lng()+
+            "&cluster=yes&zoom="+z+"&callback=?";
+        $.getJSON(myhre, getData);
+    }
+    else {
+        // delete all cloud items 
+        deleteOverlays();
+    }
+}
+
+// get temperature data from openweathermap.org
+function getData(s)
+{
+    station_list = s;
+
+    if(station_list.cod != '200') {
+        alert('Info: ' + JSONobject.message);
+        return;
+    }
+
+    // clean map
+    deleteOverlays();
+
+    infowindow = new google.maps.InfoWindow({
+        content: "place holder",
+        disableAutoPan: false
+    })
+
+    // recreate cloud items
+    for(var i = 0; i <  station_list.list.length; i ++){
+        var p = new google.maps.LatLng(station_list.list[i].lat, station_list.list[i].lng);
+
+        var temp = station_list.list[i].temp -273;
+        temp = Math.round(temp*100)/100;
+
+        img = GetWeatherIcon(station_list.list[i]);
+        var html_b = '<div style="background-color:#ffffff;opacity:0.8;border:1px solid #777777;" >\
+            <img src="http://openweathermap.org'+img+'" height="50px" width="60px" style="float: left; "><b>'+temp+' °C</b></div>';
+
+
+        var m = new StationMarker(p, map, html_b);
+        m.station_id=i; 
+        markersArray.push(m);
+
+      }
+}
+
+// remove all clouds from map
+function deleteOverlays() {
+  if (markersArray) {
+    for (i in markersArray) {
+          markersArray[i].setMap(null);
+    }
+    markersArray.length = 0;
+  }
 }
 
 // temporary marker context menu ----------------------------------------- //
@@ -442,10 +534,9 @@ function toggleFollowCurrentPosition() {
     } else {
         document.getElementById("followCurrentPositionbutton").value = "Eigener Position folgen";
     }
-    document.getElementById('followCurrentPositionContainer').style.width = document.body.offsetWidth + "px";
+
 }
 
-/** Navigation panel events **/
 
 
 

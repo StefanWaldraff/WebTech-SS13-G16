@@ -28,7 +28,7 @@ label {
     font-weight: bold;
 }
 
-#routeMenuContainer, #distanceToolContainer, #followCurrentPositionContainer, #navigationContainer {
+#routeMenuContainer, #distanceToolContainer, #navigationContainer {
     position: relative;
     margin-right: auto;
     margin-left: auto;
@@ -94,8 +94,13 @@ label {
     margin-left: 7px;
 }
 
+#followCurrentPositionbutton {
+    white-space: normal;
+}
+
 nav
 {
+    width: 220px;
     min-height: 800px;
     position: absolute;
     left: -16em;
@@ -119,7 +124,7 @@ nav:after
 
 nav label
 {
-    width: 14em;
+    width:*;
     list-style-type: none;
     margin: 0;
     padding: 1em;
@@ -139,18 +144,52 @@ article, article:after, nav, nav *
     -o-transition: all 600ms ease;
     transition: all 600ms ease;
 }
-/*
-nav:hover
+
+nav img
 {
-    /*left: 0;
+    width: 75%;
+    opacity: 0.9;
 }
 
-nav:hover ~ article
+nav img:hover
 {
-    -webkit-transform: translateX(16em) perspective(600px) rotateY(10deg);
-    -moz-transform: translateX(16em) perspective(600px) rotateY(10deg);
-    -ms-transform: translateX(16em) perspective(600px) rotateY(10deg);
-    -o-transform: translateX(16em) perspective(600px) rotateY(10deg);
-    transform: translateX(16em) perspective(600px) rotateY(10deg);
+    opacity: 0.5;
+    cursor: pointer;
 }
-*/
+
+.customCheckBox {
+    width: 34px;
+    height: 34px;
+    background: #111111;
+    margin: 20px 20px;
+    border-radius: 100%;
+    position: relative;
+    -webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+    box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+}
+
+.customCheckBox label {
+    width: -10px;
+    height: -10px;
+    display: block;
+    border-radius: 100%;
+    left:3px;
+    top:3px;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    transition: all .5s ease;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    background: #ff0a00;
+    -webkit-box-shadow:inset 0px 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow:inset 0px 1px 3px rgba(0,0,0,0.5);
+    box-shadow:inset 0px 1px 3px rgba(0,0,0,0.5);
+}
+
+.customCheckBox input[type=checkbox]:checked + label {
+    background: #26ca28;
+}

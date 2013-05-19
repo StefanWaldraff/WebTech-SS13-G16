@@ -53,30 +53,87 @@
 	        </div>
 	        
 	        <!-- Current Position -->
-	        <div id="followCurrentPositionContainer">
+	        
 	        	<!-- menu -->
-		    
+			    
 	            <!--<div id="followCurrentPosition_button" class="well">
 	                <input type="button" class="btn" value="Eigener Position folgen" id="followCurrentPositionbutton" onclick="javascript: toggleFollowCurrentPosition()" />
 	            </div>-->
-	        </div>
+	        
 	        
 	        <!-- Map -->
 	        
 	        <div id="appWrapper">
 
-	        	<div>
 				<nav id="Optionpanel">
-					<label id="roadmap">Roadmap</label>
-					<label id="satellite">Satellite</label>
-					<label id="OSM">OpenStreetMap</label>
-					<input type="checkbox" id="0" class="layer" /><label for="0">Temperature</label>
-					<input type="checkbox" id="1" class="layer" /><label for="1">Weather</label>
-					<input type="checkbox" id="2" class="layer" checked="true" /><label for="2">Seamarks</label>
+					<table> 
+						<tr>
+							<td colspan="3">
+								<center><img src="../img/custom/roadmap.png" id="map_type"></center>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<img src="../img/custom/arrow_left.png" id="arrowLeft" width="10px" height="10px">	
+							</td>
+							<td>
+								<label id="lblMapType">Map</label> 
+							</td>
+							<td>
+								<img src="../img/custom/arrow_reight.png" id="arrowReight">
+							</td>
+						</tr>
+					</table>
+					
+					<table>
+						<tr>
+							<td>
+								<div class="customCheckBox">
+							  		<input type="checkbox" id="0" class="layer" name="" style="display:none;"/>
+								  	<label for="0" />
+							  	</div>								  	
+							</td>
+							<td>
+								<label for="0" style="margin-left:-20px;">Temperatur</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="customCheckBox">
+							  		<input type="checkbox" id="1" class="layer" name="" style="display:none;"/>
+								  	<label for="1" />
+							  	</div>								  	
+							</td>
+							<td>
+								<label for="1" style="margin-left:-20px;">Wind</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="customCheckBox">
+							  		<input type="checkbox" checked="true" id="2" class="layer" name="" style="display:none;"/>
+								  	<label for="2" />
+							  	</div>								  	
+							</td>
+							<td>
+								<label for="2" style="margin-left:-20px;">Seezeichen</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="customCheckBox">
+							  		<input type="checkbox" id="weatherClouds" class="layer" name="" style="display:none;"/>
+								  	<label for="weatherClouds" />
+							  	</div>								  	
+							</td>
+							<td>
+								<label for="weatherClouds" style="margin-left:-20px;">Wetter</label>
+							</td>
+						</tr>
+					</table>	
 	                <label>
 	                	<input type="button" class="btn" value="Eigener Position folgen" id="followCurrentPositionbutton" onclick="javascript: toggleFollowCurrentPosition()" />
 	            	</label>
-	            </div>
 				</nav>
 			</div>
 	            <div id="map_canvas"></div>
@@ -110,6 +167,9 @@
 	    <script src="../js/app/map/validation.js" type="text/javascript"></script>
 	    <script src="../js/app/map/contextMenu.js" type="text/javascript"></script>
 	    <script src="../js/app/map/TxtOverlay.js" type="text/javascript"></script>
+
+	    <!-- External JavaScript to get weather data -->
+		<script src="http://openweathermap.org/js/OWM.GoogleMap.1.0.js" ></script>
 
 	</body>
 </html>
