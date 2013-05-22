@@ -162,9 +162,8 @@
 		                <tbody id="entries">
 	
 	                        <?php
-		                        $conn = mysql_connect("localhost", "root", "");
-		
-		                        $db_selected = mysql_select_db('seapal', $conn);
+							
+		                        include('_include/connection.php');
 		
 		                        if (!$db_selected) {
 		                            die('Can\'t use foo : ' . mysql_error());

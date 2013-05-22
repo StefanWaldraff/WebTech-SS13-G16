@@ -111,9 +111,7 @@
 	                        if ($_GET['tnr'])
 	                            $tnr = urldecode($_GET['tnr']);
 	
-	                        $conn = mysql_connect("localhost", "root", "root");
-	
-	                        $db_selected = mysql_select_db('SeaPal', $conn);
+	                       include('_include/connection.php');
 	
 	                        if (!$db_selected) {
 	                            die('Can\'t use foo : ' . mysql_error());
