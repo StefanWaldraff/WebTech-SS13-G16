@@ -592,6 +592,7 @@ function toggleFollowCurrentPosition() {
         connect();
     } else {
         document.getElementById("followCurrentPositionbutton").value = "Eigener Position folgen"; 
+        initialize();
     }
 
 }
