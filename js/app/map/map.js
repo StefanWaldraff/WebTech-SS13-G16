@@ -13,6 +13,13 @@ var overlay = new google.maps.OverlayView();
 var MODE = { DEFAULT: { value: 0, name: "default" }, ROUTE: { value: 1, name: "route" }, DISTANCE: { value: 2, name: "distance" }, NAVIGATION: { value: 3, name: "navigation" } };
 var currentMode = MODE.DEFAULT;
 
+var tmp_lat = 47.65521295468833;
+var tmp_lon = 9.2010498046875;
+var timestamp = 0;
+var server_url = './../site/server/chatserver.php';  
+var noerror = false;
+var cometIntervalId = null;
+
 var currentPositionMarker = null;
 var followCurrentPosition = false;
 var noToggleOfFollowCurrentPositionButton = false;
@@ -73,6 +80,8 @@ function MarkerWithInfobox(marker, infobox, counter) {
 // initialize map and all event listeners
 function initialize() {
 
+    connect();
+
     // set different map types
     var mapTypeIds = ["roadmap", "satellite", "OSM"];
     var mapTypeLabels = ["Map", "Satellite", "OpenStreetMap"];
@@ -80,7 +89,7 @@ function initialize() {
 
     // set map Options
     var mapOptions = {
-        center: new google.maps.LatLng(47.65521295468833, 9.2010498046875),
+        center: new google.maps.LatLng(tmp_lat, tmp_lon),
         zoom: 14,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         mapTypeControlOptions: {
@@ -103,7 +112,7 @@ function initialize() {
     map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
     
     // set client position
-    currentPosition = new google.maps.LatLng(47.65521295468833, 9.2010498046875)
+    currentPosition = new google.maps.LatLng(tmp_lat, tmp_lon)
 
     var currentMarkerOptions = {
         position: currentPosition,
@@ -112,7 +121,6 @@ function initialize() {
     }
 
     // initialize marker for current position
-
     currentPositionMarker = new google.maps.Marker(currentMarkerOptions);
 
     // set map types
@@ -243,11 +251,62 @@ function initialize() {
 
     google.maps.event.addListener(map, 'center_changed', function () {
         if (followCurrentPosition && !noToggleOfFollowCurrentPositionButton) {
-            toggleFollowCurrentPosition();
+            //toggleFollowCurrentPosition();
         } else {
             noToggleOfFollowCurrentPositionButton = false;
         }
     });
+}
+
+/*
+ * Get latitude and longitude from server
+ */
+function connect() {
+    
+    $.ajax({
+      type : 'get',
+      url : server_url,
+      dataType : 'json', 
+      data : {'timestamp' : timestamp},
+      success : function(response) {
+        timestamp = response.timestamp;
+        tmp_lat =  response.lat;
+        tmp_lon =  response.lon;        
+        noerror = true;          
+      },
+      complete : function(response) {
+        // send a new ajax request when this request is finished
+        if (!self.noerror) {
+          // if a connection problem occurs, try to reconnect each 5 seconds
+          cometIntervalId = setTimeout(function(){ connect(); }, 5000);           
+        }else {
+          // persistent connection
+          connect(); 
+        }
+        noerror = false;                    
+      }
+    });
+    if(followCurrentPosition) {
+        
+        currentPosition = new google.maps.LatLng(tmp_lat, tmp_lon);
+        
+        var currentMarkerOptions = {
+            position: currentPosition,
+            map: map,
+            icon: currentPositionMarkerImage
+        }
+
+        // initialize marker for current position
+        currentPositionMarker = new google.maps.Marker(currentMarkerOptions);
+        map.setCenter(currentPositionMarker.getPosition());
+    }
+    else {
+        if(cometIntervalId != null)
+        {
+            cometIntervalId = null;
+            clearTimeout(cometIntervalId);
+        }
+    }
 }
 
 // get weather data and add it to map if overlayer is activated
@@ -530,9 +589,9 @@ function toggleFollowCurrentPosition() {
     if (followCurrentPosition) {
         document.getElementById("followCurrentPositionbutton").value = "Eigener Position nicht mehr folgen";
         noToggleOfFollowCurrentPositionButton = true;
-        map.setCenter(currentPositionMarker.getPosition());
+        connect();
     } else {
-        document.getElementById("followCurrentPositionbutton").value = "Eigener Position folgen";
+        document.getElementById("followCurrentPositionbutton").value = "Eigener Position folgen"; 
     }
 
 }

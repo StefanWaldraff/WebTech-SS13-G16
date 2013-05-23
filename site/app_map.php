@@ -7,7 +7,7 @@
 	  	<?php include('_include/header.php'); include('_include/header_app.php'); ?>
 	  	
   	</head>
-  	<body onload="initialize();">
+  	<body onload="initialize()">
 
 	  	<!-- Navigation -->
     	<?php include('_include/navigation.php'); ?>
