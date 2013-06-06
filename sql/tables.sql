@@ -82,17 +82,18 @@ CREATE TABLE seapal.wegpunkte (
 
 /*table for weatherdates*/
 CREATE TABLE seapal.wetterdaten (
-	windstrgh number(30) DEFAULT NULL,
+	wnr INT  NOT NULL,
+	windstrgh INT DEFAULT NULL,
 	clouds varchar(30) NOT NULL,
-	winddrct number(30) NOT NULL,
+	winddrct INT NOT NULL,
 	rain varchar(30) NOT NULL,
-	airprssre number(30) DEFAULT NULL,
-	temperature number(30) DEFAULT NULL,
+	airprssre INT DEFAULT NULL,
+	temperature INT DEFAULT NULL,
 	einheit varchar(5),
-	wavehght number(30)DEFAULT NULL,
+	wavehght INT DEFAULT NULL,
 	wavedrct varchar(30) NOT NULL,
-	aktualitaet varchar(30) NOT NULL CHECK IN('HISTORIC', 'ACTUAL','PREDICTION'),
-	userInteraction NUMBER NOT NULL,
+	aktualitaet varchar(30) NOT NULL,
+	userInteraction INT NOT NULL,
 	PRIMARY KEY (wnr),
 	FOREIGN KEY (wnr) REFERENCES wegpunkte (wnr) ON DELETE CASCADE
 );
