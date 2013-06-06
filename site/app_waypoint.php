@@ -144,18 +144,16 @@
 								<div class="control-group">
 									<label class="control-label" >Rain</label>
 									<select name="rain" id="rain" style="width: 165px";>
+										<option  value="noRain">no rain</option>
 										<option  value="500">light rain</option>
 										<option value="501">moderate rain</option>
 										<option value="502">heavy intensity rain</option>
 										<option value="503">very heavy rain</option>
-										<option  value="504">freezing rain</option>
-										<option value="511">light intensity shower rain</option>
-										<option value="520">heavy intensity rain</option>
+										<option  value="504">extreme rain</option>
+										<option value="511">freezing rain</option>
+										<option value="520">light intensity shower rain</option>
 										<option value="521">shower rain</option>
 										<option  value="522">heavy intensity shower rain</option>
-										<option value="501">moderate rain</option>
-										<option value="502">heavy intensity rain</option>
-										<option value="503">very heavy rain</option>
 									</select>
 								</div>
 							</div>
