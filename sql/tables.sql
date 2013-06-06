@@ -76,24 +76,18 @@ CREATE TABLE seapal.wegpunkte (
 	wdate VARCHAR(30) DEFAULT NULL,
 	wtime VARCHAR(30) DEFAULT NULL,
 	marker VARCHAR(30) DEFAULT NULL,
-	PRIMARY KEY (wnr),
-	FOREIGN KEY (tnr) REFERENCES tripinfo (tnr) ON DELETE CASCADE
-);
-
-/*table for weatherdates*/
-CREATE TABLE seapal.wetterdaten (
-	wnr INT  NOT NULL,
 	windstrgh INT DEFAULT NULL,
 	clouds varchar(30) NOT NULL,
 	winddrct INT NOT NULL,
 	rain varchar(30) NOT NULL,
 	airprssre INT DEFAULT NULL,
 	temperature INT DEFAULT NULL,
-	einheit varchar(5),
 	wavehght INT DEFAULT NULL,
 	wavedrct varchar(30) NOT NULL,
 	aktualitaet varchar(30) NOT NULL,
-	userInteraction INT NOT NULL,
+	userInteraction  varchar(30) NOT NULL,
 	PRIMARY KEY (wnr),
-	FOREIGN KEY (wnr) REFERENCES wegpunkte (wnr) ON DELETE CASCADE
+	FOREIGN KEY (tnr) REFERENCES tripinfo (tnr) ON DELETE CASCADE
 );
+
+
