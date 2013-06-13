@@ -115,30 +115,24 @@
 									<label class="control-label" >Wind strength</label>
 									<input class="input-medium" type="number" name="windspeed" id="windspeed" value="0" min="0" max="12" />	
 								</div>
-								<div class="control-group">
-									<label class="control-label" >Clouds</label>
-									<input class="input-medium" type="number" name="clouds" id="clouds" value="0" min="0" max="100" step="10"/>
-									<!-- <select name="clouds" id="clouds" style="width: 165px";>
-										<option value="800" selected="selected">sky is clear</option>
-										<option value="801">few clouds</option>
-										<option value="802">scattered clouds</option>
-										<option value="803">broken clouds</option>
-										<option value="804">overcast clouds</option>
-									</select> -->
+								<div>
+								<label class="control-label">Condition</label>
+									<select name="condition" id="condition" style="width: 165px";>
+									</select>
 								</div>
+								
 							</div>
 							<div class="span4">
 								<div class="control-group">
 									<label class="control-label" >Wind direction</label>
 									<select name="winddirection" id="winddirection" style="width: 165px";>
-										
 									</select>
 								</div>
+							
+								
 								<div class="control-group">
-									<label class="control-label">Condition</label>
+									<label class="control-label">Description</label>
 									<select name="wcc" id="wcc" style="width: 165px";>
-
-										
 									</select>
 								</div>
 							</div>
@@ -148,8 +142,15 @@
 									<input class="input-medium" type="number" id="airpressure" name="airpressure" min="0"/>
 								</div>
 								<div class="control-group">
-									<label class="control-label" >Rain</label>
+									<label class="control-label" >Rain in 3h</label>
 									<input class="input-medium" type="number" id="rain" name="rain" min="0"/>
+								</div>
+								
+							</div>
+							<div class="span4">
+								<div class="control-group">
+									<label class="control-label" >Wave hight</label>
+									<input class="input-medium" type="number" id="wavehigh" name="wavehight" min="0"/>
 								</div>
 								<div class="control-group">
 									<label class="control-label" >Temperature</label> 
@@ -159,17 +160,17 @@
 										<option value="fahrenheit">&degF </option>
 									</select>
 								</div>
+								
 							</div>
 							<div class="span4">
 								<div class="control-group">
-									<label class="control-label" >Wave hight</label>
-									<input class="input-medium" type="number" id="wavehigh" name="wavehight" min="0"/>
-								</div>
-								<div class="control-group">
 									<label class="control-label" >Wave direction</label>
 									<select id="wavedirection" name="wavedirection" style="width: 165px";>
-										
 									</select>
+								</div>
+								<div class="control-group">
+									<label class="control-label" >Clouds</label>
+									<input class="input-medium" type="number" name="clouds" id="clouds" value="0" min="0" max="100" step="10"/>
 								</div>
 							</div>
 						</div>    
