@@ -86,7 +86,7 @@ $(function() {
 
 	$(document).ready(function(event) {
 		loadEntry();
-
+		getCurrentWeatherData(5, 9);
 		var temp = document.getElementById('temp');
 		$("select").change(function(){
         	if($(this).val() == 'celsius') {
@@ -138,3 +138,62 @@ function call_update(fieldName, fieldVal) {
 	    }, "json");
 
 }
+
+function getCurrentWeatherData(lat, lon){
+	$.ajax({
+      type : 'get',
+      url : "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&callback=?",
+      dataType : 'json', 
+      success : function(response) {
+      	console.log(response);
+      	/*callUpdate(response.weather["id"], );
+      	callUpdate(response.weather["icon"], );
+      	callUpdate(response.main.pressure, );
+        callUpdate(response.main.temp, 
+        
+        callUpdate(response.wind.speed
+        callUpdate(response.wind.deg
+        callUpdate(response.clouds.all
+        
+        
+        callUpdate(response.rain.3h*/
+
+      }, error: alert("mist")
+    });
+
+}
+/*wcc INT DEFAULT NULL,
+	icon VARCHAR(3) DEFAULT NULL,
+	temp INT DEFAULT NULL,
+	airpressure INT DEFAULT NULL,
+	windspeed INT DEFAULT NULL,
+	winddirection INT DEFAULT NULL,
+	rain INT DEFAULT NULL,
+	clouds INT DEFAULT NULL,
+	wavehight INT DEFAULT NULL,
+	wavedirection INT DEFAULT NULL,
+
+{"coord":
+	{"lon":139,
+	"lat":35},
+"sys":{"country":"JP",
+	"sunrise":1371065364,
+	"sunset":1371117530},
+"weather":[{"id":500,
+	"main":"Rain",
+	"description":"light rain",
+	"icon":"10n"}],
+"base":"global stations",
+"main":{"temp":290.37,
+	"humidity":87,
+	"pressure":1014,
+	"temp_min":290.37,
+	"temp_max":290.37},
+"wind":{"speed":9.33,
+	"deg":24.5033},
+"rain":{"3h":1},
+"clouds":{"all":80},
+"dt":1371137938,
+"id":1851632,
+"name":"Shuzenji",
+"cod":200}*/
