@@ -156,7 +156,7 @@
 							<div class="span4">
 								<div class="control-group">
 									<label class="control-label" >Wave hight</label>
-									<input class="input-medium" type="number" id="wavehigh" name="wavehight" min="0"/>
+									<input class="input-medium" type="number" id="wavehight" name="wavehight" min="0"/>
 								</div>
 								<div class="control-group">
 									<label class="control-label" >Temperature</label> 
