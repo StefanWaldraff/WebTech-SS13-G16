@@ -8,12 +8,13 @@
 	    exit;
 	}
 	
-	$sql = "INSERT INTO seapal.wegpunkte(tnr, name, btm, dtm, lat, lng, sog, cog, manoever, vorsegel, wdate, wtime, marker) VALUES (
-				" . $_POST['tnr'] . ", 
+	$sql = "INSERT INTO seapal.wegpunkte(tnr, name, btm, dtm, lat, lng, sog, cog, manoever, vorsegel, wdate, wtime, marker," 	
+	. " wcc, icon, temp, airpressure, windspeed, winddirection, rain, clouds, wavehight, wavedirection) VALUES (
+				" .  $_POST['tnr'] . ", 
 				'" . $_POST['name'] . "',
 				'" . $_POST['btm'] . "', 
 				'" . $_POST['dtm'] . "',
-				'" .$_POST['lat'] . "', 
+				'" . $_POST['lat'] . "', 
 				'" . $_POST['lng'] . "',
 				'" . $_POST['sog'] . "', 
 				'" . $_POST['cog'] . "', 
@@ -21,8 +22,19 @@
 				'" . $_POST['vorsegel'] . "', 
 				'" . $_POST['wdate'] . "', 
 				'" . $_POST['wtime'] . "', 
-				'" . $_POST['marker'] . "');";
-	
+				'" . $_POST['marker'] . "'
+				'" . $_POST['wcc'] . "'
+				'" . $_POST['icon'] . "'
+				'" . $_POST['temp'] . "'
+				'" . $_POST['airpressure'] . "'
+				'" . $_POST['windspeed'] . "'
+				'" . $_POST['winddirection'] . "'
+				'" . $_POST['rain'] . "'
+				'" . $_POST['clouds'] . "'
+				'" . $_POST['wavehight'] . "'
+				'" . $_POST['wavedirection'] . "'
+				);";
+
 	$result = mysql_query($sql, $conn);
 	
 	if (!$result) {
