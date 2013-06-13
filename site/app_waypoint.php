@@ -161,7 +161,7 @@
 								<div class="control-group">
 									<label class="control-label" >Temperature</label> 
 									<input  type="text" id="temp" name="temp" class="input-small" />
-									<select name="scale" class="input-mini";>
+									<select name="scale" id="scale" class="input-mini";>
 										<option value="celsius" selected="selected">&degC </option>
 										<option value="fahrenheit">&degF </option>
 									</select>

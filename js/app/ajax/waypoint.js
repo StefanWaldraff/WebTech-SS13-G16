@@ -30,7 +30,7 @@ $(function() {
 	        	$('option[value='+ value.charAt(0) +']').attr('selected','selected');
 	        }else{
 	        	erweitern('#wcc', "null" , ["null"], ["---"], true);
-	        	erweitern('#condition', "null", ["null"], ["---"]);
+	        	erweitern('#condition', "null", ["null"], ["---"], true);
 	        }
 	       
 	       	value = parseInt(value);
@@ -89,18 +89,44 @@ $(function() {
 		getCurrentWeatherData(5, 9);
 		var temp = document.getElementById('temp');
 		$("select").change(function(){
+
+			var e = $(this).context;
+
         	if($(this).val() == 'celsius') {
         		temp.value = Math.round((temp.value - 32) * 5/9);
         	}
         	else if ($(this).val() == 'fahrenheit') {
         		temp.value = Math.round(temp.value *1.8 +32);
         	}
-        	alert($(this).value);
+
+        	if(e.name == 'condition') {
+        		document.getElementById('wcc').options.length = 0;
+        		erweitern('#wcc', "null" , ["null"], ["---"], true);
+        		getGruppe(parseInt(e.options[e.selectedIndex].value), null, false);
+        	}
+        	else if(e.name == 'scale') {
+        		call_update('temp', e.options[e.selectedIndex].value);
+        	}
+        	else {
+        		call_update(e.name, e.options[e.selectedIndex].value);
+        	}
     	});
 
     	$("input").change(function(e) {	
-    		alert(e.name);
-    		//call_update($(this).name, $(this).val())
+    		if($(this).context.name == 'temp') {
+    			var result = 0;
+        		var tmpVal = document.getElementById('scale');
+
+        		if(tmpVal.value == 'celsius') {
+        			result = parseInt($(this).val()) + 272;
+        		} else {
+        			result = Math.round((parseInt($(this).val()) - 32) * 5/9) + 272;
+        		}
+        		call_update($(this).context.name, result);
+        	}
+        	else {
+    			call_update($(this).context.name, $(this).val());
+    		}
     	});
 	});
 
