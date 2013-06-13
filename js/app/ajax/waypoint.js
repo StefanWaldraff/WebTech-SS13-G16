@@ -11,7 +11,7 @@ $(function() {
 			function registriere(id){
 				var obj = document.getElementById(id);
 				console.log(obj);
-				obj.addEventListener('onchange', alert());
+				/*obj.addEventListener('onchange', alert());*/
 			}
 
 	        $('#name').val(data['name']);
@@ -138,6 +138,16 @@ $(function() {
 
 	$(document).ready(function(event) {
 		loadEntry();
+
+		var temp = document.getElementById('temp');
+		$("select").change(function(){
+        	if($(this).val() == 'celsius') {
+        		temp.value = Math.round((temp.value - 32) * 5/9);
+        	}
+        	else if ($(this).val() == 'fahrenheit') {
+        		temp.value = Math.round(temp.value *1.8 +32);
+        	}
+    	});
 	});
 
 });
