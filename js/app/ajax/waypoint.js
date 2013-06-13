@@ -8,6 +8,11 @@ $(function() {
 		var waypnr = waypnrQuery[0].replace(/wnr=/, "");
 
 		jQuery.get("app_tripinfo_load.php", {'wnr': waypnr}, function(data) {
+			function registriere(id){
+				var obj = document.getElementById(id);
+				console.log(obj);
+				obj.addEventListener('onchange', alert());
+			}
 
 	        $('#name').val(data['name']);
 	        $('#lat').val(data['lat']);
@@ -126,6 +131,7 @@ $(function() {
 	        }
 	        this.erweitern('#wavedirection', direction, dirNumbers, dirText, setzeSelect);
 
+	        registriere('name');
 	    }, "json");
     	
 	}
@@ -135,3 +141,7 @@ $(function() {
 	});
 
 });
+
+aktualisiere = function (e){
+	console.log(e);
+}
