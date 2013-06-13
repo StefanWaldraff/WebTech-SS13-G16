@@ -1,6 +1,6 @@
 var thunderstormCodes = [200, 201, 210, 211, 212, 221, 230, 231, 232];
-var thunderstormText = ["with light rain", "with rain", "with heavy rain", "light thunderstorm",
-	"thunderstorm", "heavy thunderstorm", "ragged thunderstorm", "with light drizzle",
+var thunderstormText = ["with light rain", "with rain", "with heavy rain", "light",
+	"thunderstorm", "heavy", "ragged thunderstorm", "with light drizzle",
 	 "with drizzle", "with heavy drizzle"];
 
 var drizzleCodes = [300, 301, 302, 310, 311, 312, 321];

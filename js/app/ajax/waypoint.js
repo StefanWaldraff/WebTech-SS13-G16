@@ -22,22 +22,25 @@ $(function() {
 	        $('#wdate').val(data['wdate']);
 	        $('#wtime').val(data['wtime']);
 
-	 		var value = parseInt(data['wcc']);
+	 		var value = data['wcc'];
 	 		var setzeSelect = false;
 	        var direction = 0;
 	        if (value != null) {
 	        	setzeSelect = true;
-	        }
-	        if(!setzeSelect){
+	        	$('option[value='+ value.charAt(0) +']').attr('selected','selected');
+	        }else{
 	        	erweitern('#wcc', "null" , ["null"], ["---"], true);
+	        	erweitern('#condition', "null", ["null"], ["---"]);
 	        }
-	 		erweitern('#wcc', value, thunderstormCodes, thunderstormText, setzeSelect);
-	 		erweitern('#wcc', value, drizzleCodes, drizzleText, setzeSelect);
-	 		erweitern('#wcc', value, rainCodes, rainText, setzeSelect);
-	 		erweitern('#wcc', value, snowCodes, snowText, setzeSelect);
-	 		erweitern('#wcc', value, atmosphereCodes, atmosphereText, setzeSelect);
-	 		erweitern('#wcc', value, cloudCodes, cloudText, setzeSelect);
-	 		erweitern('#wcc', value, extremeCodes, extremeText, setzeSelect);
+	       
+	       	value = parseInt(value);
+	 		getGruppe(2, value, setzeSelect);
+	 		getGruppe(3, value, setzeSelect);
+	 		getGruppe(5, value, setzeSelect);
+	 		getGruppe(6, value, setzeSelect);
+	 		getGruppe(7, value, setzeSelect);
+	 		getGruppe(8, value, setzeSelect);
+	 		getGruppe(9, value, setzeSelect);
 	        
 	        value = data['temp'];
 	        if(value != null){
@@ -51,10 +54,10 @@ $(function() {
 	        direction = 0;
 	        if (value != null) {
 	        	setzeSelect = true;
-	        	direction = this.getDirection(parseInt(value), dirNumbers, dirBorders);
+	        	direction = getDirection(parseInt(value), dirNumbers, dirBorders);
 	        }
 	        if(!setzeSelect){
-	        	this.erweitern('#winddirection', "null" , ["null"], ["---"], true);
+	        	erweitern('#winddirection', "null" , ["null"], ["---"], true);
 	        }
 	        erweitern('#winddirection', direction, dirNumbers, dirText, setzeSelect);
 
@@ -67,7 +70,7 @@ $(function() {
 	       	direction = 0;
 	        if (value != null) {
 	        	setzeSelect = true;
-	        	direction = this.getDirection(parseInt(value), dirNumbers, dirBorders);
+	        	direction = getDirection(parseInt(value), dirNumbers, dirBorders);
 	        }
 
 	        if(!setzeSelect){

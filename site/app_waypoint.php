@@ -30,58 +30,58 @@
 						<div class="span4" align="center">	            		
 							<div class="control-group">
 								<label class="control-label">Name</label>
-								<input class="input-medium" type="text" id="name"/>
+								<input class="input-medium" type="text" id="name" name="name"/>
 							</div>
 							<div class="control-group">
 								<label class="control-label">Date</label>
-								<input class="input-medium" type="date" id="wdate"/>
+								<input class="input-medium" type="date" id="wdate" name="wdate"/>
 							</div>
 							<div class="control-group">
 								<label class="control-label">Time</label>
-								<input class="input-medium" type="time" id="wtime"/>
+								<input class="input-medium" type="time" id="wtime", name="wtime"/>
 							</div>
 						</div>
 						<div class="span4">
 							<div class="control-group">
 								<label class="control-label">Latitude</label>
-								<input class="input-medium" type="text" id="lat"/>
+								<input class="input-medium" type="text" id="lat" name="lat"/>
 							</div>
 							<div class="control-group">
 								<label class="control-label">Longitude</label>
-								<input class="input-medium" type="text" id="lng"/>
+								<input class="input-medium" type="text" id="lng" name="lng"/>
 							</div>
 							<div class="control-group">
 								<label class="control-label">Fahrt nach</label>
-								<select name="fahrtziel" id="marker" style="width: 165px;"></select>
+								<select name="fahrtziel" id="marker" name="marker" style="width: 165px;"></select>
 							</div>
 						</div>
 						<div class="span4">
 							<div class="control-group">
 								<label class="control-label">COG</label>
-								<input class="input-medium" type="text" id="cog"/>
+								<input class="input-medium" type="text" id="cog" name="cog"/>
 							</div>
 							<div class="control-group">
 								<label class="control-label">SOG</label>
-								<input class="input-medium" type="text" id="sog"/>
+								<input class="input-medium" type="text" id="sog" name="sog"/>
 							</div>
 							
 							<div class="control-group">
 								<label class="control-label">Manoever</label>
-								<select name="manoever" id="manoever" style="width: 165px;"></select>
+								<select name="manoever" id="manoever" name="manoever" style="width: 165px;"></select>
 							</div>                   
 						</div>
 						<div class="span4">
 							<div class="control-group">
 								<label class="control-label">BTM</label>
-								<input class="input-medium" type="text" id="btm"/>
+								<input class="input-medium" type="text" id="btm" name="btm"/>
 							</div>
 							<div class="control-group">
 								<label class="control-label">DTM</label>
-								<input class="input-medium" type="text" id="dtm"/>
+								<input class="input-medium" type="text" id="dtm" name="dtm"/>
 							</div>
 							<div class="control-group">
 								<label class="control-label">Vorsegel</label>
-								<select name="vorsegel" id="vorsegel" style="width: 165px;"></select>
+								<select name="vorsegel" id="vorsegel" name="vorsegel" style="width: 165px;"></select>
 							</div>
 						</div>
 		            </div>      	 
@@ -117,7 +117,7 @@
 								</div>
 								<div>
 								<label class="control-label">Condition</label>
-									<select name="condition" id="condition" onchange="alert(value);" style="width: 165px";>
+									<select name="condition" id="condition" style="width: 165px";>
 										<option id="c2" value="2">Thunderstorm</option>
 										<option id="c3" value="3">Drizzle</option>
 										<option id="c5" value="5">Rain</option>
@@ -160,7 +160,7 @@
 								</div>
 								<div class="control-group">
 									<label class="control-label" >Temperature</label> 
-									<input  type="text" id="temp" class="input-small" />
+									<input  type="text" id="temp" name="temp" class="input-small" />
 									<select name="scale" class="input-mini";>
 										<option value="celsius" selected="selected">&degC </option>
 										<option value="fahrenheit">&degF </option>
