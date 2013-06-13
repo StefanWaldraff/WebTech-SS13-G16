@@ -195,5 +195,7 @@
 		
 		<!-- Additional Java-Script -->
 		<script src="../js/app/ajax/waypoint.js" type="text/javascript"></script>
+		<script src="../js/app/ajax/app_waypoint.js" type="text/javascript"></script>
+
 	</body>
 </html>

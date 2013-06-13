@@ -79,6 +79,8 @@ $(function() {
     	
 	}
 
+
+
 	$(document).ready(function(event) {
 		loadEntry();
 
@@ -90,7 +92,46 @@ $(function() {
         	else if ($(this).val() == 'fahrenheit') {
         		temp.value = Math.round(temp.value *1.8 +32);
         	}
+        	alert($(this).value);
+    	});
+
+    	$("input").change(function(e) {	
+    		alert(e.name);
+    		//call_update($(this).name, $(this).val())
     	});
 	});
 
 });
+
+function call_update(fieldName, fieldVal) {
+
+		event.preventDefault();
+		var query = window.location.search;
+		
+		var waynrQuery = query.match(/wnr=\d/);
+		var waynr = waynrQuery[0].replace(/wnr=/, "");
+	
+		var json = {
+			"wnr": waynr,
+			field: fieldName,
+			value: fieldVal
+	    };
+	
+	    jQuery.post("app_waypoint_update.php", json, function(data) { 
+	    
+	    	if (data['wnr'].match(/Error/)) {
+		    	
+		    	$('#dialogTitle').text('Error');
+		    	$('#dialogMessage').text(data['wnr'].replace(/Error: /, ""));
+		    	
+	    	} else {
+		    		    
+		    	$('#dialogTitle').text('Success');
+		    	$('#dialogMessage').text("Eintrag wurde erfolgreich gespeichert.");
+	    	}
+	    
+	    	$('#messageBox').modal('show');
+	    	
+	    }, "json");
+
+}
