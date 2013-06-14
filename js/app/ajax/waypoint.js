@@ -1,7 +1,7 @@
 $(function() {
 	$(document).ready(function(event) {
 		loadEntry();
-		getCurrentWeatherData(5, 9, false);
+		getWeatherData(false);
 		var temp = document.getElementById('temp');
 		$("select").change(function(){
 
@@ -41,6 +41,10 @@ $(function() {
         	}
         	else {
     			call_update($(this).context.name, $(this).val());
+                var name = $(this).context.name;
+                if(name == 'wdate' || name == 'lan' || name == 'lng'){
+                    getWeatherData(true);
+                }
     		}
     	});
 	});
@@ -49,6 +53,10 @@ $(function() {
 
 function call_update(fieldName, fieldVal) {
 
+        if(fieldName == 'wdate' || fieldName == 'wtime'){
+            // this fix is needed to store values as DATE and/or TIME types in sql
+            fieldVal = "'" + fieldVal + "'";
+        }
 		event.preventDefault();
 		var query = window.location.search;
 		
@@ -56,7 +64,7 @@ function call_update(fieldName, fieldVal) {
 		var waynr = waynrQuery[0].replace(/wnr=/, "");
 	
 		var json = {
-			"wnr": waynr,
+			"wnr": parseInt(waynr),
 			field: fieldName,
 			value: fieldVal
 	    };
@@ -80,63 +88,91 @@ function call_update(fieldName, fieldVal) {
 
 }
 
+function getWeatherData(force){
+    var lat = document.getElementById('lat').value;
+    var lon = document.getElementById('lng').value;
+    var date = document.getElementById('wdate').value;
+
+    function buildToday(){
+        var d = new Date();
+        var year = d.getFullYear();
+        var month = d.getMonth() + 1;
+        month = (month < 10)? "0" + month : month;
+        var day = d.getDate();
+        day = (day < 10)? "0" + day : day;
+        return year + "-" + month + "-" + day;
+    }
+
+    var today = buildToday();
+    for (var i = 0; i < today.length; i++) {
+        if(date.charAt(i) < today.charAt(i))
+            return getHistoricWeatherData(lat, lon, date, force);
+        if(date.charAt(i) > today.charAt(i))
+            return getPredictedWeatherData(lat, lon, date, force);
+    }
+    return getCurrentWeatherData(lat, lon, force);
+}
+
+function getHistoricWeatherData(lat, lon, date, force){
+    alert("historic");
+}
+
+function getPredictedWeatherData(lat, lon, date, force){
+    alert("predicted");
+}
+
 function getCurrentWeatherData(lat, lon, force){
 	$.ajax({
       type : 'get',
       url : "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&callback=?",
       dataType : 'json', 
       success : function(response){
-      	fillFields(response, force);
+      	var somethingChanged = false;
+        var value = document.getElementById('windspeed'); 
+        if(force || check(value)){
+            call_update(value.name, v.wind.speed);
+            somethingChanged = true;
+        }   
+        value = document.getElementById('winddirection'); 
+        if(force || check(value) || value.options[value.selectedIndex].text == "---"){
+            call_update(value.name, v.wind.deg);
+            somethingChanged = true;
+        }
+        value = document.getElementById('wcc'); 
+
+        if(force || check(value) || value.options[value.selectedIndex].text == "---"){
+            var temp = v.weather[0].id;
+            call_update(value.name, temp);
+            somethingChanged = true;
+        }
+        value = document.getElementById('airpressure'); 
+        if(force || check(value)){
+            call_update(value.name, v.main.pressure);
+            somethingChanged = true;
+        }
+        value = document.getElementById('rain'); 
+        if(force || check(value)){
+            //call_update(value.name, v.rain.(3h));
+            //somethingChanged = true;
+        }
+        value = document.getElementById('temp'); 
+        if(force || check(value)){
+            call_update(value.name, v.main.temp);
+            somethingChanged = true;
+        }
+        value = document.getElementById('clouds'); 
+        if(force || check(value)){
+            call_update(value.name, v.clouds.all);
+            somethingChanged = true;
+        }   
+        // retrive data from database if something changed
+        if(somethingChanged){
+            loadEntry();
+        }
       }, 
       error: function(a,b,c){
       }
     });
-
-}
-
-function fillFields(v, force){
-	var somethingChanged = false;
-	var value = document.getElementById('windspeed'); 
-	if(force || check(value)){
-		call_update(value.name, v.wind.speed);
-		somethingChanged = true;
-	}	
-	value = document.getElementById('winddirection'); 
-	if(force || check(value)){
-		call_update(value.name, v.wind.deg);
-		somethingChanged = true;
-	}
-	value = document.getElementById('wcc'); 
-
-	if(force || check(value) || value.options[value.selectedIndex].text == "---"){
-		var temp = v.weather[0].id;
-		call_update(value.name, temp);
-		somethingChanged = true;
-	}
-	value = document.getElementById('airpressure'); 
-	if(force || check(value)){
-		call_update(value.name, v.main.pressure);
-		somethingChanged = true;
-	}
-	value = document.getElementById('rain'); 
-	if(force || check(value)){
-		//call_update(value.name, v.rain.(3h));
-		//somethingChanged = true;
-	}
-	value = document.getElementById('temp'); 
-	if(force || check(value)){
-		call_update(value.name, v.main.temp);
-		somethingChanged = true;
-	}
-	value = document.getElementById('clouds'); 
-	if(force || check(value)){
-		call_update(value.name, v.clouds.all);
-		somethingChanged = true;
-	}	
-	// retrive data from database if something changed
-	if(somethingChanged){
-		loadEntry();
-	}	
 
 }
 
@@ -171,22 +207,13 @@ function loadEntry() {
         var direction = 0;
         document.getElementById('wcc').options.length = 0;
         if (value != null) {
-        	setzeSelect = true;
         	$('option[value='+ value.charAt(0) +']').attr('selected','selected');
+            getGruppe(parseInt(value.charAt(0)), parseInt(value), true);
         }else{
         	erweitern('#wcc', "null" , ["null"], ["---"], true);
         	erweitern('#condition', "null", ["null"], ["---"], true);
         }
        
-       	value = parseInt(value);
- 		getGruppe(2, value, setzeSelect);
- 		getGruppe(3, value, setzeSelect);
- 		getGruppe(5, value, setzeSelect);
- 		getGruppe(6, value, setzeSelect);
- 		getGruppe(7, value, setzeSelect);
- 		getGruppe(8, value, setzeSelect);
- 		getGruppe(9, value, setzeSelect);
-        
         value = data['temp'];
         if(value != null){
         	$('#temp').val(parseInt(value) - 272);
