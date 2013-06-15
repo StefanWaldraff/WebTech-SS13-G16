@@ -118,13 +118,7 @@
 								<div>
 								<label class="control-label">Condition</label>
 									<select name="condition" id="condition" style="width: 165px";>
-										<option id="c2" value="2">Thunderstorm</option>
-										<option id="c3" value="3">Drizzle</option>
-										<option id="c5" value="5">Rain</option>
-										<option id="c6" value="6">Snow</option>
-										<option id="c7" value="7">Atmosphere</option>
-										<option id="c8" value="8">Cloud</option>
-										<option id="c9" value="9">Extreme</option>
+										
 									</select>
 								</div>
 							</div>

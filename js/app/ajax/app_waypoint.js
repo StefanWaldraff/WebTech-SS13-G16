@@ -1,3 +1,6 @@
+var conditionCodes = [2, 3, 5, 6, 7, 8, 9];
+var conditionText = ["Thunderstorm" , "Drizzle" , "Rain" , "Snow" , "Atmosphere" , "Cloud" , "Extreme"];
+
 var thunderstormCodes = [200, 201, 210, 211, 212, 221, 230, 231, 232];
 var thunderstormText = ["with light rain", "with rain", "with heavy rain", "light",
 	"thunderstorm", "heavy", "ragged thunderstorm", "with light drizzle",
@@ -50,33 +53,39 @@ getDirection = function(value, numbers, borders){
 	return 0;
 }
 
-aktualisiere = function (e){
-	console.log(e);
-}
-
 getGruppe = function (gruppenNr, wert, setzeSelect){
 	var feld = '#wcc';
 	switch(gruppenNr){
+		case 1:
+			erweitern('#condition', wert, conditionCodes, conditionText, setzeSelect);
+			break;
 		case 2:
 			erweitern(feld, wert, thunderstormCodes, thunderstormText, setzeSelect);
+			$('option[value='+ gruppenNr +']').attr('selected','selected');
 			break;
 		case 3:
 			erweitern(feld, wert, drizzleCodes, drizzleText, setzeSelect);
+			$('option[value='+ gruppenNr +']').attr('selected','selected');
 			break;
 		case 5:
 			erweitern(feld, wert, rainCodes, rainText, setzeSelect);
+			$('option[value='+ gruppenNr +']').attr('selected','selected');
 			break;
 		case 6:
 			erweitern(feld, wert, snowCodes, snowText, setzeSelect);
+			$('option[value='+ gruppenNr +']').attr('selected','selected');
 			break;
 		case 7:
 			erweitern(feld, wert, atmosphereCodes, atmosphereText, setzeSelect);
+			$('option[value='+ gruppenNr +']').attr('selected','selected');
 			break;
 		case 8:
 			erweitern(feld, wert, cloudCodes, cloudText, setzeSelect);
+			$('option[value='+ gruppenNr +']').attr('selected','selected');
 			break;
 		case 9:
 			erweitern(feld, wert, extremeCodes, extremeText, setzeSelect);
+			$('option[value='+ gruppenNr +']').attr('selected','selected');
 			break;
 	}
 }
