@@ -144,57 +144,100 @@ function getHistoricWeatherData(lat, lon, date, force, cityIDs, index){
 }
 
 function writeHistoricData(response, force){
-    var somethingChanged = false;
-    var value = document.getElementById('windspeed'); 
-    if(force || check(value)){
-        call_update(value.name, response.wind.speed);
-        somethingChanged = true;
-    }   
-    value = document.getElementById('winddirection'); 
-    if(force || check(value) || value.options[value.selectedIndex].text == "---"){
-        call_update(value.name, response.wind.deg);
-        somethingChanged = true;
-    }
-    value = document.getElementById('wcc'); 
+    var field, value;
 
-    if(force || check(value) || value.options[value.selectedIndex].text == "---"){
+    field = document.getElementById('windspeed'); 
+    if(force || check(field)){
+        value = parseInt(response.wind.speed);
+        call_update(field.name, value);
+        field.value = value;
+    }   
+    field = document.getElementById('winddirection'); 
+    if(force || check(field) || field.options[field.selectedIndex].text == "---"){
+        value = response.wind.deg;
+        call_update(field.name, value);
+        field.options.length = 0;
+        var direction;
+        var setzeSelect = false;
+        if (value != null) {
+            setzeSelect = true;
+            direction = getDirection(value, dirNumbers, dirBorders);
+        }
+        if(!setzeSelect){
+            erweitern('#winddirection', "widnull" , ["widnull"], ["---"], true);
+        }
+        erweitern('#winddirection', direction, dirNumbers, dirText, setzeSelect);
+    }
+
+        
+    field = document.getElementById('wcc'); 
+    if(force || check(field) || field.options[field.selectedIndex].text == "---"){
+        field.options.length = 0;
+        document.getElementById('condition').options.length = 0;
         var temp = response.weather[0];
-        call_update(value.name, temp.id);
+        call_update(field.name, temp.id);
         call_update("icon", temp.icon);
-        somethingChanged = true;
+        if (temp.id != null) {
+            getGruppe(1, null, false);
+            getGruppe(parseInt(temp.id /100), temp.id, true);
+            var ic = document.getElementById('icon');
+            if(temp.icon != null)
+                ic.src = "../img/custom/" + temp.icon + ".png";
+            else
+                ic.src = "";
+        }else{
+            erweitern('#wcc', "wccnull" , ["wccnull"], ["---"], true);
+            erweitern('#condition', "cnull", ["cnull"], ["---"], true);
+            getGruppe(1, null, false);
+        }
     }
-    value = document.getElementById('airpressure'); 
-    if(force || check(value)){
-        call_update(value.name, response.main.pressure);
-        somethingChanged = true;
+    field = document.getElementById('airpressure'); 
+    if(force || check(field)){
+        value = parseInt(response.main.pressure);
+        call_update(field.name, value);
+        field.value = value;
     }
-    value = document.getElementById('precipation'); 
-    if(force || check(value)){
+    field = document.getElementById('precipation'); 
+    if(force || check(field)){
         // hacky solutions because of "3h" fieldname...
         for(wert in response.rain){
             // checks for rain
-            call_update(value.name, response.rain[wert]);
+            value = response.rain[wert];
+            call_update(field.name, value);
+            field.value = value;
             break;
         }
         for(wert in response.snow){
             // checks for snow
-            call_update(value.name, response.snow[wert]);
+            value = response.snow[wert];
+            call_update(field.name, value);
+            field.value = value;
             break;
         }
     }
-    value = document.getElementById('temp'); 
-    if(force || check(value)){
-        call_update(value.name, response.main.temp);
-        somethingChanged = true;
+    field = document.getElementById('temp'); 
+    if(force || check(field)){
+        value = response.main.temp;
+        call_update(field.name, value);
+        field.value = parseInt(value) - 272;
     }
-    value = document.getElementById('clouds'); 
-    if(force || check(value)){
-        call_update(value.name, response.clouds.all);
-        somethingChanged = true;
+    field = document.getElementById('clouds'); 
+    if(force || check(field)){
+        value = parseInt(response.clouds.all);
+        call_update(field.name, value);
+        field.value = value;
     }
-    // retrive data from database if something changed
-    if(somethingChanged){
-        loadEntry();
+    if(force){
+        value = null;
+        field = document.getElementById('wavehight');
+        call_update(field.name, value);
+        field.value = value;
+
+        field = document.getElementById('wavedirection');
+        call_update(field.name, value);
+        field.options.length = 0;
+        erweitern('#wavedirection', "wavnull" , ["wavnull"], ["---"], true);
+        erweitern('#wavedirection', value, dirNumbers, dirText, false);
     }
 }
 
@@ -231,53 +274,75 @@ function defaultWeatherData(){
         "wnr": waynr,
     };
 
-    jQuery.post("app_waypoint_default.php", json, function(data) { 
+    jQuery.post("app_waypoint_default.php", json, function(data) {
+        loadEntry();
     }, "json");
-
-    loadEntry()
 }
 
 function readPredictedData(entry, force){
-    var somethingChanged = false;
 
-    var field = document.getElementById('windspeed');
-    var value;
+    var field, value;
 
+    field = document.getElementById('windspeed')
     if(force || check(field)){
         value = entry.speed;
         call_update(field.name, value);
-        somethingChanged = true;
+        field.value = parseInt(value);
     }   
     field = document.getElementById('winddirection'); 
     if(force || check(field) || field.options[field.selectedIndex].text == "---"){
         value = entry.deg;
         call_update(field.name, value);
-        somethingChanged = true;
+        field.options.length = 0;
+        var direction;
+        var setzeSelect = false;
+        if (value != null) {
+            setzeSelect = true;
+            direction = getDirection(value, dirNumbers, dirBorders);
+        }
+        if(!setzeSelect){
+            erweitern('#winddirection', "widnull" , ["widnull"], ["---"], true);
+        }
+        erweitern('#winddirection', direction, dirNumbers, dirText, setzeSelect);
     }
     field = document.getElementById('wcc'); 
     if(force || check(field) || field.options[field.selectedIndex].text == "---"){
-        value = entry.weather[0];
-        call_update(field.name, value.id);
-        call_update("icon", value.icon);
-        somethingChanged = true;
+        field.options.length = 0;
+        document.getElementById('condition').options.length = 0;
+        var temp = entry.weather[0];
+        call_update(field.name, temp.id);
+        call_update("icon", temp.icon);
+        if (temp.id != null) {
+            getGruppe(1, null, false);
+            getGruppe(parseInt(temp.id /100), temp.id, true);
+            var ic = document.getElementById('icon');
+            if(temp.icon != null)
+                ic.src = "../img/custom/" + temp.icon + ".png";
+            else
+                ic.src = "";
+        }else{
+            erweitern('#wcc', "wccnull" , ["wccnull"], ["---"], true);
+            erweitern('#condition', "cnull", ["cnull"], ["---"], true);
+            getGruppe(1, null, false);
+        }
     }
     field = document.getElementById('airpressure'); 
     if(force || check(field)){
         value = entry.pressure;
         call_update(field.name, value);
-        somethingChanged = true;
+        field.value = parseInt(value);
     }
     field = document.getElementById('precipation'); 
     if(force || check(field)){
         value = entry.rain;
         call_update(field.name, value);
         if(value != null){
-            somethingChanged = true;
+            field.value = value;
         }
         value = entry.snow;
         call_update(field.name, value);
         if(value != null){
-            somethingChanged = true;
+            field.value = value;
         }
     }
     field = document.getElementById('temp'); 
@@ -285,17 +350,26 @@ function readPredictedData(entry, force){
         // using average temp
         value = (entry.temp.min + entry.temp.max)/2;
         call_update(field.name, value);
-        somethingChanged = true;
+        field.value = parseInt(value) - 272;
     }
     field = document.getElementById('clouds'); 
     if(force || check(field)){
         value = entry.clouds;
         call_update(field.name, value);
-        somethingChanged = true;
+        field.value = parseInt(value);
     }
     // retrive data from database if something changed
-    if(somethingChanged){
-        loadEntry();
+    if(force){
+        value = null;
+        field = document.getElementById('wavehight');
+        call_update(field.name, value);
+        field.value = value;
+
+        field = document.getElementById('wavedirection');
+        call_update(field.name, value);
+        field.options.length = 0;
+        erweitern('#wavedirection', "wavnull" , ["wavnull"], ["---"], true);
+        erweitern('#wavedirection', value, dirNumbers, dirText, false);
     }
 }
 
@@ -307,54 +381,98 @@ function getCurrentWeatherData(lat, lon, force){
       dataType : 'json', 
       success : function(response){
       	var somethingChanged = false;
-        var value = document.getElementById('windspeed'); 
-        if(force || check(value)){
-            call_update(value.name, response.wind.speed);
-            somethingChanged = true;
-        }   
-        value = document.getElementById('winddirection'); 
-        if(force || check(value) || value.options[value.selectedIndex].text == "---"){
-            call_update(value.name, response.wind.deg);
-            somethingChanged = true;
-        }
-        value = document.getElementById('wcc'); 
+        var field, value;
 
-        if(force || check(value) || value.options[value.selectedIndex].text == "---"){
+        field = document.getElementById('windspeed'); 
+        if(force || check(field)){
+            value = response.wind.speed;
+            call_update(field.name, value);
+            field.value = parseInt(value);
+        }   
+        field = document.getElementById('winddirection'); 
+        if(force || check(field) || field.options[field.selectedIndex].text == "---"){
+            value = response.wind.deg;
+            call_update(field.name, value);
+            field.options.length = 0;
+            var direction;
+            var setzeSelect = false;
+            if (value != null) {
+                setzeSelect = true;
+                direction = getDirection(value, dirNumbers, dirBorders);
+            }
+            if(!setzeSelect){
+                erweitern('#winddirection', "widnull" , ["widnull"], ["---"], true);
+            }
+            erweitern('#winddirection', direction, dirNumbers, dirText, setzeSelect);
+        }
+            
+        field = document.getElementById('wcc'); 
+        if(force || check(field) || field.options[field.selectedIndex].text == "---"){
+            field.options.length = 0;
+            document.getElementById('condition').options.length = 0;
             var temp = response.weather[0];
-            call_update(value.name, temp.id);
+            call_update(field.name, temp.id);
             call_update("icon", temp.icon);
-            somethingChanged = true;
+            if (temp.id != null) {
+                getGruppe(1, null, false);
+                getGruppe(parseInt(temp.id /100), temp.id, true);
+                var ic = document.getElementById('icon');
+                if(temp.icon != null)
+                    ic.src = "../img/custom/" + temp.icon + ".png";
+                else
+                    ic.src = "";
+            }else{
+                erweitern('#wcc', "wccnull" , ["wccnull"], ["---"], true);
+                erweitern('#condition', "cnull", ["cnull"], ["---"], true);
+                getGruppe(1, null, false);
+            }
         }
-        value = document.getElementById('airpressure'); 
-        if(force || check(value)){
-            call_update(value.name, response.main.pressure);
-            somethingChanged = true;
+
+        field = document.getElementById('airpressure'); 
+        if(force || check(field)){
+            value = response.main.pressure;
+            call_update(field.name, value);
+            field.value = parseInt(value);
         }
-        value = document.getElementById('precipation'); 
-        if(force || check(value)){
+
+        field = document.getElementById('precipation'); 
+        if(force || check(field)){
             // hacky solution because of "3h" fieldname...
             for(wert in response.rain){
-                call_update(value.name, response.rain[wert]);
+                value = response.rain[wert];
+                call_update(field.name, value);
+                field.value = value;
                 break;
             }
             for(wert in response.snow){
-                call_update(value.name, response.snow[wert]);
-                break;
+                value = response.snow[wert];
+                call_update(field.name, value);
+                field.value = value;
             }
         }
-        value = document.getElementById('temp'); 
-        if(force || check(value)){
-            call_update(value.name, response.main.temp);
-            somethingChanged = true;
+        field = document.getElementById('temp'); 
+        if(force || check(field)){
+            value = response.main.temp;
+            call_update(value.name, value);
+            field.value = parseInt(value) -272;
         }
-        value = document.getElementById('clouds'); 
-        if(force || check(value)){
-            call_update(value.name, response.clouds.all);
-            somethingChanged = true;
+        field = document.getElementById('clouds'); 
+        if(force || check(field)){
+            value = response.clouds.all;
+            call_update(value.name, value);
+            field.value = parseInt(value);
         } 
-        // retrive data from database if something changed
-        if(somethingChanged){
-            loadEntry();
+        if(force){
+            value = null;
+            field = document.getElementById('wavehight');
+            call_update(field.name, value);
+            field.value = value;
+
+            field = document.getElementById('wavedirection');
+            call_update(field.name, value);
+            field.options.length = 0;
+            erweitern('#wavedirection', "wavnull" , ["wavnull"], ["---"], true);
+            erweitern('#wavedirection', value, dirNumbers, dirText, false);
         }
       }, 
       error: function(a,b,c){
@@ -398,20 +516,23 @@ function loadEntry() {
         if (value != null) {
             getGruppe(1, null, false);
             getGruppe(parseInt(value.charAt(0)), parseInt(value), true);
-            var ic = document.getElementById('icon');
-            if(data['icon'] != null)
-                ic.src = "../img/custom/" + data['icon'] + ".png";
-            else
-                ic.src = "";
         }else{
         	erweitern('#wcc', "wccnull" , ["wccnull"], ["---"], true);
         	erweitern('#condition', "cnull", ["cnull"], ["---"], true);
             getGruppe(1, null, false);
         }
+
+        var ic = document.getElementById('icon');
+        if(data['icon'] != null)
+            ic.src = "../img/custom/" + data['icon'] + ".png";
+        else
+            ic.src = "";
        
         value = data['temp'];
         if(value != null){
         	$('#temp').val(parseInt(value) - 272);
+        } else{
+            $('#temp').val(null);
         }
         $('#airpressure').val(data['airpressure']);
         $('#windspeed').val(data['windspeed']);

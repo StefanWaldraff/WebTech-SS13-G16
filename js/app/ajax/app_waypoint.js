@@ -37,7 +37,7 @@ erweitern = function(feld, wert, codeArray, textArray, setzeSelect){
 		$(feld).append(opt);
 	};
 	if(setzeSelect)
-		$('option[value='+ wert +']').attr('selected','selected'); 
+		$(feld).val(escape(wert));
 	}
 }
 	 		
@@ -55,37 +55,38 @@ getDirection = function(value, numbers, borders){
 
 getGruppe = function (gruppenNr, wert, setzeSelect){
 	var feld = '#wcc';
+	var cond = '#condition';
 	switch(gruppenNr){
 		case 1:
-			erweitern('#condition', wert, conditionCodes, conditionText, setzeSelect);
+			erweitern(cond, wert, conditionCodes, conditionText, setzeSelect);
 			break;
 		case 2:
 			erweitern(feld, wert, thunderstormCodes, thunderstormText, setzeSelect);
-			$('option[value='+ gruppenNr +']').attr('selected','selected');
+			$(cond).val(escape(gruppenNr));
 			break;
 		case 3:
 			erweitern(feld, wert, drizzleCodes, drizzleText, setzeSelect);
-			$('option[value='+ gruppenNr +']').attr('selected','selected');
+			$(cond).val(escape(gruppenNr));
 			break;
 		case 5:
 			erweitern(feld, wert, rainCodes, rainText, setzeSelect);
-			$('option[value='+ gruppenNr +']').attr('selected','selected');
+			$(cond).val(escape(gruppenNr));
 			break;
 		case 6:
 			erweitern(feld, wert, snowCodes, snowText, setzeSelect);
-			$('option[value='+ gruppenNr +']').attr('selected','selected');
+			$(cond).val(escape(gruppenNr));
 			break;
 		case 7:
 			erweitern(feld, wert, atmosphereCodes, atmosphereText, setzeSelect);
-			$('option[value='+ gruppenNr +']').attr('selected','selected');
+			$(cond).val(escape(gruppenNr));
 			break;
 		case 8:
 			erweitern(feld, wert, cloudCodes, cloudText, setzeSelect);
-			$('option[value='+ gruppenNr +']').attr('selected','selected');
+			$(cond).val(escape(gruppenNr));
 			break;
 		case 9:
 			erweitern(feld, wert, extremeCodes, extremeText, setzeSelect);
-			$('option[value='+ gruppenNr +']').attr('selected','selected');
+			$(cond).val(escape(gruppenNr));
 			break;
 	}
 }

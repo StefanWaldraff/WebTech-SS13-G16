@@ -130,7 +130,7 @@
 									</select>
 								</div>
 								<div class="control-group">
-									<label class="control-label" >Wind strength [mps]</label>
+									<label class="control-label" >Wind speed [mps]</label>
 									<input class="input-medium" type="number" name="windspeed" id="windspeed" tabindex="4" value="0" min="0" max="12" />	
 								</div>
 							</div>
