@@ -173,6 +173,16 @@
 									<input class="input-medium" type="number" name="clouds" id="clouds" value="0" min="0" max="100" step="10"/>
 								</div>
 							</div>
+							<div class="span4">
+								<div class="control-group">
+									<figure>
+										<img id="icon" name="icon" src="">
+									</figure>
+								</div>
+								
+							</div>
+							
+
 						</div>    
 				</div>
 			</div>

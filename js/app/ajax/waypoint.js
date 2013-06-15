@@ -323,10 +323,9 @@ function getCurrentWeatherData(lat, lon, force){
         value = document.getElementById('wcc'); 
 
         if(force || check(value) || value.options[value.selectedIndex].text == "---"){
-            var temp = response.weather[0].id;
-            call_update(value.name, temp);
-            tmp = response.weather[0].icon;
-            call_update("icon", temp);
+            var temp = response.weather[0];
+            call_update(value.name, temp.id);
+            call_update("icon", temp.icon);
             somethingChanged = true;
         }
         value = document.getElementById('airpressure'); 
@@ -402,6 +401,7 @@ function loadEntry() {
         if (value != null) {
             getGruppe(1, null, false);
             getGruppe(parseInt(value.charAt(0)), parseInt(value), true);
+            document.getElementById('icon').src = "../img/custom/" + data['icon'] + ".png";
         }else{
         	erweitern('#wcc', "wccnull" , ["wccnull"], ["---"], true);
         	erweitern('#condition', "cnull", ["cnull"], ["---"], true);
