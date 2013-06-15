@@ -213,8 +213,13 @@ function writeHistoricData(response, force){
     field = document.getElementById('temp'); 
     if(force || check(field)){
         value = response.main.temp;
+        var tmp;
+        if(document.getElementById("scale").value == "fahrenheit")
+            tmp = Math.round(value * 1.8 - 459.67);
+        else
+            tmp = Math.round(value - 272);
         call_update(field.name, value);
-        field.value = parseInt(value) - 272;
+        field.value = tmp;
     }
     field = document.getElementById('clouds'); 
     if(force || check(field)){
@@ -351,8 +356,13 @@ function readPredictedData(entry, force){
     if(force || check(field)){
         // using average temp
         value = (entry.temp.min + entry.temp.max)/2;
+        var tmp;
+        if(document.getElementById("scale").value == "fahrenheit")
+            tmp = Math.round(value * 1.8 - 459.67);
+        else
+            tmp = Math.round(value - 272);
         call_update(field.name, value);
-        field.value = parseInt(value) - 272;
+        field.value = tmp;
     }
     field = document.getElementById('clouds'); 
     if(force || check(field)){
@@ -455,8 +465,13 @@ function getCurrentWeatherData(lat, lon, force){
         field = document.getElementById('temp'); 
         if(force || check(field)){
             value = response.main.temp;
-            call_update(value.name, value);
-            field.value = parseInt(value) -272;
+            var tmp;
+            if(document.getElementById("scale").value == "fahrenheit")
+                tmp = Math.round(value * 1.8 - 459.67);
+            else
+                tmp = Math.round(value - 272);
+            call_update(field.name, value);
+            field.value = tmp;
         }
         field = document.getElementById('clouds'); 
         if(force || check(field)){
@@ -532,7 +547,12 @@ function loadEntry() {
        
         value = data['temp'];
         if(value != null){
-        	$('#temp').val(parseInt(value) - 272);
+            var tmp;
+            if(document.getElementById("scale").value == "fahrenheit")
+                tmp = Math.round(value * 1.8 - 459.67);
+            else
+                tmp = Math.round(value - 272);
+        	$('#temp').val(tmp);
         } else{
             $('#temp').val(null);
         }
