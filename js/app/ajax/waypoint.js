@@ -88,17 +88,18 @@ function getWeatherData(force){
     var lon = document.getElementById('lng').value;
     var date = document.getElementById('wdate').value;
 
-    if(date == "" || date == null){
-        // if date is not set there we won't make a request
-        return;
-    }
     var today = buildDateString(new Date());
     for (var i = 0; i < today.length; i++) {
-        if(date.charAt(i) < today.charAt(i))
-            return getClosestCities(lat, lon, date, force);
-        if(date.charAt(i) > today.charAt(i))
+        if(date.charAt(i) > today.charAt(i)){
             return getPredictedWeatherData(lat, lon, date, force);
+            alert("pred");
+        }
+        if(date.charAt(i) < today.charAt(i)){
+            return getClosestCities(lat, lon, date, force);
+            alert("hist");
+        }
     }
+    alert("akt");
     return getCurrentWeatherData(lat, lon, force);
 }
 
@@ -275,6 +276,7 @@ function defaultWeatherData(){
     };
 
     jQuery.post("app_waypoint_default.php", json, function(data) {
+        document.getElementById('icon').src = "";
         loadEntry();
     }, "json");
 }
