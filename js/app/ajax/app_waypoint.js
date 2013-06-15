@@ -3,16 +3,16 @@ var conditionText = ["Thunderstorm" , "Drizzle" , "Rain" , "Snow" , "Atmosphere"
 
 var thunderstormCodes = [200, 201, 210, 211, 212, 221, 230, 231, 232];
 var thunderstormText = ["with light rain", "with rain", "with heavy rain", "light",
-	"thunderstorm", "heavy", "ragged thunderstorm", "with light drizzle",
+	"thunderstorm", "heavy", "ragged", "with light drizzle",
 	 "with drizzle", "with heavy drizzle"];
 
 var drizzleCodes = [300, 301, 302, 310, 311, 312, 321];
-var drizzleText =["light intensity drizzle", "drizzle", "heavy intensity drizzle", "light intensity drizzle rain",
-	"drizzle rain", "heavy intensity drizzle rain", "shower drizzle"];
+var drizzleText =["light intensity", "drizzle", "heavy intensity", "light drizzle rain",
+	"drizzle rain", "heavy drizzle rain", "shower drizzle"];
 
 var rainCodes = [500, 501, 502, 503, 504, 511, 520, 521, 522];
-var rainText = ["light rain", "moderate rain", "heavy intensity rain", "very heavy rain", "extreme rain", "freezing rain",
-	"light intensity shower rain", "shower rain", "heavy intensity shower rain"];
+var rainText = ["light", "moderate", "heavy intensity", "very heavy", "extreme", "freezing",
+	"light shower", "shower", "heavy shower"];
 
 var snowCodes = [600, 601, 602, 611, 621];
 var snowText = ["light snow", "snow", "sleet", "shower snow"];
