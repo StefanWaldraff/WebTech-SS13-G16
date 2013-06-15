@@ -112,7 +112,7 @@
 						<div class="row well" style="margin-left: 15%;" align="center">
 							<div class="span4">
 								<div class="control-group">
-									<label class="control-label" >Wind strength</label>
+									<label class="control-label" >Wind strength [mps]</label>
 									<input class="input-medium" type="number" name="windspeed" id="windspeed" value="0" min="0" max="12" />	
 								</div>
 								<div>
@@ -138,18 +138,18 @@
 							</div>
 							<div class="span4">
 								<div class="control-group">
-									<label class="control-label" >Air pressure</label>
+									<label class="control-label" >Air pressure [hPa]</label>
 									<input class="input-medium" type="number" id="airpressure" name="airpressure" min="0"/>
 								</div>
 								<div class="control-group">
-									<label class="control-label" >Precipation in 3h</label>
+									<label class="control-label" >Precipation [mm/3h]</label>
 									<input class="input-medium" type="number" id="precipation" name="precipation" min="0"/>
 								</div>
 								
 							</div>
 							<div class="span4">
 								<div class="control-group">
-									<label class="control-label" >Wave hight</label>
+									<label class="control-label" >Wave hight [m]</label>
 									<input class="input-medium" type="number" id="wavehight" name="wavehight" min="0"/>
 								</div>
 								<div class="control-group">
@@ -169,7 +169,7 @@
 									</select>
 								</div>
 								<div class="control-group">
-									<label class="control-label" >Clouds</label>
+									<label class="control-label" >Clouds [%]</label>
 									<input class="input-medium" type="number" name="clouds" id="clouds" value="0" min="0" max="100" step="10"/>
 								</div>
 							</div>
