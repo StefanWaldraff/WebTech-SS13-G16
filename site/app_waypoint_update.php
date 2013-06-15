@@ -7,8 +7,7 @@
 	    echo json_encode($err);
 	    exit;
 	}
-	$sql = "UPDATE seapal.wegpunkte SET " . $_POST['field'] . "=" . $_POST['value'] . " WHERE wnr=" . $_POST['wnr'] . ";";
-	
+	$sql = "UPDATE seapal.wegpunkte SET ". $_POST['field'] ."=". $_POST['value'] ." WHERE wnr=" . $_POST['wnr'] . ";";
 	$result = mysql_query($sql, $conn);
 	
 	if (!$result) {
