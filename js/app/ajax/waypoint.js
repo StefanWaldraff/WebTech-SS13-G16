@@ -121,7 +121,6 @@ getClosestCities = function (lat, lon, date, force){
 }
 
 function getHistoricWeatherData(lat, lon, date, force, cityIDs, index){
-    //alert("historic " + cityIDs[0]);
     if(index == cityIDs.length){
         // checked all possible cities
         return;
@@ -159,10 +158,9 @@ function writeHistoricData(response, force){
     value = document.getElementById('wcc'); 
 
     if(force || check(value) || value.options[value.selectedIndex].text == "---"){
-        var temp = response.weather[0].id;
-        call_update(value.name, temp);
-        temp = response.weather[0].icon;
-        call_update("icon", temp);
+        var temp = response.weather[0];
+        call_update(value.name, temp.id);
+        call_update("icon", temp.icon);
         somethingChanged = true;
     }
     value = document.getElementById('airpressure'); 
@@ -258,10 +256,9 @@ function readPredictedData(entry, force){
     }
     field = document.getElementById('wcc'); 
     if(force || check(field) || field.options[field.selectedIndex].text == "---"){
-        value = entry.weather[0].id;
-        call_update(field.name, value);
-        value = entry.weather[0].icon;
-        call_update("icon", value);
+        value = entry.weather[0];
+        call_update(field.name, value.id);
+        call_update("icon", value.icon);
         somethingChanged = true;
     }
     field = document.getElementById('airpressure'); 
@@ -401,7 +398,11 @@ function loadEntry() {
         if (value != null) {
             getGruppe(1, null, false);
             getGruppe(parseInt(value.charAt(0)), parseInt(value), true);
-            document.getElementById('icon').src = "../img/custom/" + data['icon'] + ".png";
+            var ic = document.getElementById('icon');
+            if(data['icon'] != null)
+                ic.src = "../img/custom/" + data['icon'] + ".png";
+            else
+                ic.src = "";
         }else{
         	erweitern('#wcc', "wccnull" , ["wccnull"], ["---"], true);
         	erweitern('#condition', "cnull", ["cnull"], ["---"], true);
