@@ -1,13 +1,9 @@
-var actions_disabled = false;
-
 $(function() {
 	$(document).ready(function(event) {
 		loadEntry();
 		getWeatherData(false);
 		var temp = document.getElementById('temp');
 		$("select").change(function(){
-            if(actions_disabled)
-                return;
 			var e = $(this).context;
 
         	if($(this).val() == 'celsius') {
@@ -22,11 +18,11 @@ $(function() {
         		erweitern('#wcc', "wccnull" , ["wccnull"], ["---"], true);
                 console.log(e.options[e.selectedIndex]);
         		getGruppe(parseInt(e.options[e.selectedIndex].value), null, false);
-            }    
-        	else if(e.name == 'scale') {
+            } 
+            else if(e.name == 'scale') {
         		call_update('temp', e.options[e.selectedIndex].value);
         	}
-        	else {
+            else {
         		call_update(e.name, e.options[e.selectedIndex].value);
         	}
     	});
@@ -73,22 +69,7 @@ function call_update(fieldName, fieldVal) {
 			value: fieldVal
 	    };
 	
-	    jQuery.post("app_waypoint_update.php", json, function(data) { 
-
-            // this seems unneeded since app_waypoint_update.php does not response anything
-	    	// if (data['wnr'].match(/Error/)) {
-		    	
-		    // 	$('#dialogTitle').text('Error');
-		    // 	$('#dialogMessage').text(data['wnr'].replace(/Error: /, ""));
-		    	
-	    	// } else {
-		    		    
-		    // 	$('#dialogTitle').text('Success');
-		    // 	$('#dialogMessage').text("Eintrag wurde erfolgreich gespeichert.");
-	    	// }
-	    
-	    	// $('#messageBox').modal('show');
-	    	
+	    jQuery.post("app_waypoint_update.php", json, function(data) { 	    	
 	    }, "json");
 
 }
@@ -109,29 +90,107 @@ function getWeatherData(force){
     var date = document.getElementById('wdate').value;
 
     if(date == "" || date == null){
-        alert("date1: " + date);
-        loadEntry();
-        lat = document.getElementById('lat').value;
-        lon = document.getElementById('lng').value;
-        date = document.getElementById('wdate').value;
-        alert("date2: " + date + " lat: " + lat + "lon: " +lon);
         // if date is not set there we won't make a request
         return;
     }
-    alert("request");
     var today = buildDateString(new Date());
     for (var i = 0; i < today.length; i++) {
-        //alert("date: " + date.charAt(i) + " today: " + today.charAt(i));
         if(date.charAt(i) < today.charAt(i))
-            return getHistoricWeatherData(lat, lon, date, force);
+            return getClosestCities(lat, lon, date, force);
         if(date.charAt(i) > today.charAt(i))
             return getPredictedWeatherData(lat, lon, date, force);
     }
     return getCurrentWeatherData(lat, lon, force);
 }
 
-function getHistoricWeatherData(lat, lon, date, force){
-    alert("historic");
+getClosestCities = function (lat, lon, date, force){
+    $.ajax({
+        type : 'get',
+        url : "http://api.openweathermap.org/data/2.5/find?lat=" + lat + "&lon=" + lon + "&callback=?",
+        dataType : 'json', 
+        success : function(response){
+            var cityIDs = new Array();
+            for (var i = 0; i < response.list.length; i++) {
+                cityIDs.push(response.list[i].id);
+            };   
+            var dateSec = (new Date(date).getTime())/1000;      
+            getHistoricWeatherData(lat, lon, dateSec, force, cityIDs, 0);
+        }, 
+        error: function(a,b,c){
+        }
+    });
+}
+
+function getHistoricWeatherData(lat, lon, date, force, cityIDs, index){
+    //alert("historic " + cityIDs[0]);
+    if(index == cityIDs.length){
+        // checked all possible cities
+        return;
+    }
+    $.ajax({
+        type : 'get',
+        url : "http://api.openweathermap.org/data/2.5/history/city/1517501?type=day&start=1371081600&end=1371081600&callback=?",
+        dataType : 'json', 
+        success : function(response){
+           if(response.list.length == 0){
+                // no data from this station
+                return getHistoricWeatherData(lat, lon, date, force, cityIDs, ++index);
+            }
+            writeHistoricData(response.list[0], force);
+        }, 
+        error: function(a,b,c){
+            // try next city
+            getHistoricWeatherData(lat, lon, date, force, cityIDs, ++index);
+        }
+    });
+}
+
+function writeHistoricData(response, force){
+    var somethingChanged = false;
+    var value = document.getElementById('windspeed'); 
+    if(force || check(value)){
+        call_update(value.name, response.wind.speed);
+        somethingChanged = true;
+    }   
+    value = document.getElementById('winddirection'); 
+    if(force || check(value) || value.options[value.selectedIndex].text == "---"){
+        call_update(value.name, response.wind.deg);
+        somethingChanged = true;
+    }
+    value = document.getElementById('wcc'); 
+
+    if(force || check(value) || value.options[value.selectedIndex].text == "---"){
+        var temp = response.weather[0].id;
+        call_update(value.name, temp);
+        somethingChanged = true;
+    }
+    value = document.getElementById('airpressure'); 
+    if(force || check(value)){
+        call_update(value.name, response.main.pressure);
+        somethingChanged = true;
+    }
+    value = document.getElementById('rain'); 
+    if(force || check(value)){
+        // hacky solution because of "3h" fieldname...
+        for(wert in response.rain){
+            call_update(value.name, response.rain[wert]);
+            break;
+        }
+    }
+    value = document.getElementById('temp'); 
+    if(force || check(value)){
+        call_update(value.name, response.main.temp);
+        somethingChanged = true;
+    }
+    value = document.getElementById('clouds'); 
+    if(force || check(value)){
+        call_update(value.name, response.clouds.all);
+        somethingChanged = true;
+    }   
+    // retrive data from database if something changed
+    if(somethingChanged){
+        loadEntry();
+    }
 }
 
 function getPredictedWeatherData(lat, lon, date, force){
@@ -148,11 +207,10 @@ function getPredictedWeatherData(lat, lon, date, force){
             }
         }
         // can't predict further than 14 days, so no data available
-        alert("reseting");
         return defaultWeatherData();
       }, 
       error: function(a,b,c){
-      },
+      }
     });
 
 }
