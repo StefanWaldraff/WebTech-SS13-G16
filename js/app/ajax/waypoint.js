@@ -16,8 +16,7 @@ $(function() {
         	if(e.name == 'condition') {
         		document.getElementById('wcc').options.length = 0;
         		erweitern('#wcc', "wccnull" , ["wccnull"], ["---"], true);
-                console.log(e.options[e.selectedIndex]);
-        		getGruppe(parseInt(e.options[e.selectedIndex].value), null, false);
+       		getGruppe(parseInt(e.options[e.selectedIndex].value), null, false);
             } 
             else if(e.name == 'scale') {
         		call_update('temp', e.options[e.selectedIndex].value);
@@ -53,8 +52,8 @@ $(function() {
 
 function call_update(fieldName, fieldVal) {
 
-        if(fieldName == 'wdate' || fieldName == 'wtime'){
-            // this fix is needed to store values as DATE and/or TIME types in sql
+        if(fieldName == 'wdate' || fieldName == 'wtime' || fieldName == 'icon'){
+            // this fix is needed to store values string types in sql
             fieldVal = "'" + fieldVal + "'";
         }
 		event.preventDefault();
@@ -162,6 +161,8 @@ function writeHistoricData(response, force){
     if(force || check(value) || value.options[value.selectedIndex].text == "---"){
         var temp = response.weather[0].id;
         call_update(value.name, temp);
+        temp = response.weather[0].icon;
+        call_update("icon", temp);
         somethingChanged = true;
     }
     value = document.getElementById('airpressure'); 
@@ -192,7 +193,7 @@ function writeHistoricData(response, force){
     if(force || check(value)){
         call_update(value.name, response.clouds.all);
         somethingChanged = true;
-    }   
+    }
     // retrive data from database if something changed
     if(somethingChanged){
         loadEntry();
@@ -259,6 +260,8 @@ function readPredictedData(entry, force){
     if(force || check(field) || field.options[field.selectedIndex].text == "---"){
         value = entry.weather[0].id;
         call_update(field.name, value);
+        value = entry.weather[0].icon;
+        call_update("icon", value);
         somethingChanged = true;
     }
     field = document.getElementById('airpressure'); 
@@ -322,6 +325,8 @@ function getCurrentWeatherData(lat, lon, force){
         if(force || check(value) || value.options[value.selectedIndex].text == "---"){
             var temp = response.weather[0].id;
             call_update(value.name, temp);
+            tmp = response.weather[0].icon;
+            call_update("icon", temp);
             somethingChanged = true;
         }
         value = document.getElementById('airpressure'); 
@@ -350,7 +355,7 @@ function getCurrentWeatherData(lat, lon, force){
         if(force || check(value)){
             call_update(value.name, response.clouds.all);
             somethingChanged = true;
-        }   
+        } 
         // retrive data from database if something changed
         if(somethingChanged){
             loadEntry();
