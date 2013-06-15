@@ -171,7 +171,7 @@
 							</div>
 							<div class="span4">
 								<div class="control-group">
-									<figure>
+									<figure id="fig">
 										<img id="icon" name="icon" src="">
 									</figure>
 								</div>

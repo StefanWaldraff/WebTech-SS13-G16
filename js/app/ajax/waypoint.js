@@ -1,7 +1,6 @@
 $(function() {
 	$(document).ready(function(event) {
 		loadEntry();
-		getWeatherData(false);
 		var temp = document.getElementById('temp');
 		$("select").change(function(){
 			var e = $(this).context;
@@ -90,16 +89,11 @@ function getWeatherData(force){
 
     var today = buildDateString(new Date());
     for (var i = 0; i < today.length; i++) {
-        if(date.charAt(i) > today.charAt(i)){
+        if(date.charAt(i) > today.charAt(i))
             return getPredictedWeatherData(lat, lon, date, force);
-            alert("pred");
-        }
-        if(date.charAt(i) < today.charAt(i)){
+        if(date.charAt(i) < today.charAt(i))
             return getClosestCities(lat, lon, date, force);
-            alert("hist");
-        }
     }
-    alert("akt");
     return getCurrentWeatherData(lat, lon, force);
 }
 
@@ -276,7 +270,13 @@ function defaultWeatherData(){
     };
 
     jQuery.post("app_waypoint_default.php", json, function(data) {
-        document.getElementById('icon').src = "";
+        var figure = document.getElementById("fig")
+        figure.innerHTML = "";
+        var img = new Image();
+        img.src = "";
+        img.setAttribute("id","icon");
+        img.setAttribute("name", "icon");
+        figure.appendChild(img);
         loadEntry();
     }, "json");
 }
@@ -569,7 +569,7 @@ function loadEntry() {
         	erweitern('#wavedirection', "wavnull" , ["wavnull"], ["---"], true);
         }
         erweitern('#wavedirection', direction, dirNumbers, dirText, setzeSelect);
-
+        getWeatherData(false);
     }, "json");
 	
 }
