@@ -21,7 +21,7 @@
 	$result = mysql_query($sql, $conn);
 	$sql = "UPDATE seapal.wegpunkte SET winddirection=NULL WHERE wnr=" . $_POST['wnr'] . ";";
 	$result = mysql_query($sql, $conn);
-	$sql = "UPDATE seapal.wegpunkte SET rain=NULL WHERE wnr=" . $_POST['wnr'] . ";";
+	$sql = "UPDATE seapal.wegpunkte SET precipation=NULL WHERE wnr=" . $_POST['wnr'] . ";";
 	$result = mysql_query($sql, $conn);
 	$sql = "UPDATE seapal.wegpunkte SET clouds=NULL WHERE wnr=" . $_POST['wnr'] . ";";
 	$result = mysql_query($sql, $conn);

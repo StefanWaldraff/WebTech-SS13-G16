@@ -83,7 +83,7 @@ CREATE TABLE seapal.wegpunkte (
 	airpressure INT DEFAULT NULL,
 	windspeed INT DEFAULT NULL,
 	winddirection INT DEFAULT NULL,
-	rain DECIMAL DEFAULT NULL,
+	precipation DECIMAL(5,1) DEFAULT NULL,
 	clouds INT DEFAULT NULL,
 	wavehight INT DEFAULT NULL,
 	wavedirection INT DEFAULT NULL,

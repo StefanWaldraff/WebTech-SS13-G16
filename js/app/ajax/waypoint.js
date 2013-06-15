@@ -169,11 +169,17 @@ function writeHistoricData(response, force){
         call_update(value.name, response.main.pressure);
         somethingChanged = true;
     }
-    value = document.getElementById('rain'); 
+    value = document.getElementById('precipation'); 
     if(force || check(value)){
-        // hacky solution because of "3h" fieldname...
+        // hacky solutions because of "3h" fieldname...
         for(wert in response.rain){
+            // checks for rain
             call_update(value.name, response.rain[wert]);
+            break;
+        }
+        for(wert in response.snow){
+            // checks for snow
+            call_update(value.name, response.snow[wert]);
             break;
         }
     }
@@ -261,9 +267,14 @@ function readPredictedData(entry, force){
         call_update(field.name, value);
         somethingChanged = true;
     }
-    field = document.getElementById('rain'); 
+    field = document.getElementById('precipation'); 
     if(force || check(field)){
         value = entry.rain;
+        call_update(field.name, value);
+        if(value != null){
+            somethingChanged = true;
+        }
+        value = entry.snow;
         call_update(field.name, value);
         if(value != null){
             somethingChanged = true;
@@ -318,11 +329,15 @@ function getCurrentWeatherData(lat, lon, force){
             call_update(value.name, response.main.pressure);
             somethingChanged = true;
         }
-        value = document.getElementById('rain'); 
+        value = document.getElementById('precipation'); 
         if(force || check(value)){
             // hacky solution because of "3h" fieldname...
             for(wert in response.rain){
                 call_update(value.name, response.rain[wert]);
+                break;
+            }
+            for(wert in response.snow){
+                call_update(value.name, response.snow[wert]);
                 break;
             }
         }
@@ -408,7 +423,7 @@ function loadEntry() {
         }
         erweitern('#winddirection', direction, dirNumbers, dirText, setzeSelect);
 
-        $('#rain').val(data['rain']);
+        $('#precipation').val(data['precipation']);
         $('#clouds').val(data['clouds']);
         $('#wavehight').val(data['wavehight']);
 

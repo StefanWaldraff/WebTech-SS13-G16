@@ -142,8 +142,8 @@
 									<input class="input-medium" type="number" id="airpressure" name="airpressure" min="0"/>
 								</div>
 								<div class="control-group">
-									<label class="control-label" >Rain in 3h</label>
-									<input class="input-medium" type="number" id="rain" name="rain" min="0"/>
+									<label class="control-label" >Precipation in 3h</label>
+									<input class="input-medium" type="number" id="precipation" name="precipation" min="0"/>
 								</div>
 								
 							</div>

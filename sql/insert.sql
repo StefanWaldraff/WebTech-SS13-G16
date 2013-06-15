@@ -11,6 +11,6 @@ INSERT INTO seapal.bootinfo (bootname, registernummer, segelzeichen, heimathafen
 INSERT INTO seapal.tripinfo (titel, von, nach, skipper, crew, tstart, tende, tdauer, motor, tank) VALUES ("Langer Trip nach England", "Hamburg", "Dover", "Hr. Hein", "Martin Felix Manuel", DATE("2012-07-02"), DATE("2012-07-02"), 300, 1241, true);
 
 INSERT INTO seapal.wegpunkte (tnr, name, btm, dtm, lat, lng, sog, cog, manoever, vorsegel, wdate, wtime, marker, 	
-	wcc,icon, temp, airpressure, windspeed, winddirection, rain, clouds, wavehight, wavedirection) VALUES 
+	wcc,icon, temp, airpressure, windspeed, winddirection, precipation, clouds, wavehight, wavedirection) VALUES 
 	(1, "Marker 11", "btm", "dtm", "43", "-75", "sog", "cog", "manoever", "vorsegel", DATE("2013-06-13"), TIME("22:49"), "Ziel",
 		501, "10d", 285, 999, 2, 276, 4, 82, NULL, NULL);
