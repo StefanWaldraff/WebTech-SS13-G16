@@ -10,7 +10,12 @@ INSERT INTO seapal.bootinfo (bootname, registernummer, segelzeichen, heimathafen
 /* insert trips */
 INSERT INTO seapal.tripinfo (titel, von, nach, skipper, crew, tstart, tende, tdauer, motor, tank) VALUES ("Langer Trip nach England", "Hamburg", "Dover", "Hr. Hein", "Martin Felix Manuel", DATE("2012-07-02"), DATE("2012-07-02"), 300, 1241, true);
 
-INSERT INTO seapal.wegpunkte (tnr, name, btm, dtm, lat, lng, sog, cog, manoever, vorsegel, wdate, wtime, marker, 	
-	wcc,icon, temp, airpressure, windspeed, winddirection, precipation, clouds, wavehight, wavedirection) VALUES 
-	(1, "Marker 11", "btm", "dtm", "43", "-75", "sog", "cog", "manoever", "vorsegel", DATE("2013-06-13"), TIME("22:49"), "Ziel",
-		501, "10d", 285, 999, 2, 276, 4, 82, NULL, NULL);
+/* insert waypoints */
+INSERT INTO  `seapal`.`wegpunkte` (`wnr`, `tnr`, `name`, `btm`, `dtm` ,`lat` ,`lng` ,`sog` ,`cog` ,`manoever` ,`vorsegel` ,`wdate` ,`wtime` ,`marker` ,`wcc` ,`icon` ,`temp` ,`airpressure` ,`windspeed` ,`winddirection` ,`precipation` ,`clouds` ,`wavehight` ,`wavedirection`)
+VALUES (NULL ,  '1',  'NewYearsEve12NY',  'btm',  'dtm',  '34',  '118',  'sog',  'cog',  'manoever',  'vorsegel',  '2012-12-31',  '23:59:00',  'Ziel', NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL);
+INSERT INTO  `seapal`.`wegpunkte` (`wnr`, `tnr`, `name`, `btm`, `dtm` ,`lat` ,`lng` ,`sog` ,`cog` ,`manoever` ,`vorsegel` ,`wdate` ,`wtime` ,`marker` ,`wcc` ,`icon` ,`temp` ,`airpressure` ,`windspeed` ,`winddirection` ,`precipation` ,`clouds` ,`wavehight` ,`wavedirection`)
+VALUES (NULL,  '1',  'TodaysWeatherKN',  'btm',  'dtm',  '47',  '9',  'sog',  'cog',  'manoever',  'vorsegel',  '2013-06-20',  '09:45:00',  'Ziel', NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL);
+INSERT INTO  `seapal`.`wegpunkte` (`wnr`, `tnr`, `name`, `btm`, `dtm` ,`lat` ,`lng` ,`sog` ,`cog` ,`manoever` ,`vorsegel` ,`wdate` ,`wtime` ,`marker` ,`wcc` ,`icon` ,`temp` ,`airpressure` ,`windspeed` ,`winddirection` ,`precipation` ,`clouds` ,`wavehight` ,`wavedirection`)
+VALUES (NULL ,  '1',  'TokioIn10Days',  'btm',  'dtm',  '35',  '139',  'sog',  'cog',  'manoever',  'vorsegel',  '2013-06-30',  '12:30:00',  'Ziel', NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL);
+INSERT INTO  `seapal`.`wegpunkte` (`wnr`, `tnr`, `name`, `btm`, `dtm` ,`lat` ,`lng` ,`sog` ,`cog` ,`manoever` ,`vorsegel` ,`wdate` ,`wtime` ,`marker` ,`wcc` ,`icon` ,`temp` ,`airpressure` ,`windspeed` ,`winddirection` ,`precipation` ,`clouds` ,`wavehight` ,`wavedirection`)
+VALUES (NULL,  '1',  'CapeTownIn1Month',  'btm',  'dtm',  '35',  '18',  'sog',  'cog',  'manoever',  'vorsegel',  '2013-07-20',  '15:00:00',  'Ziel', NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL);
